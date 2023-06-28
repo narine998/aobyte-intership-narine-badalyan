@@ -13,7 +13,7 @@ class MyPromise {
       if (this.state === "pending") {
         this.state = "fulfilled";
         this.result = value;
-        this.fulfilledHandlers.forEach((f) => f(error));
+        this.fulfilledHandlers.forEach((f) => f(value));
       }
     };
 
