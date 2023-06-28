@@ -119,15 +119,15 @@ class MyPromise {
             (res) => {
               result.push(res);
               counter++;
-              if (counter === promises.length) {
-                resolve(result);
-              }
             },
             (err) => {
               reject(err);
             }
           );
         }
+      }
+      if (counter === promises.length) {
+        resolve(result);
       }
     });
   }
