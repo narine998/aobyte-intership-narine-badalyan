@@ -110,9 +110,9 @@ class MyPromise {
     return new MyPromise((resolve, reject) => {
       let counter = 0;
       const result = [];
-      for (let promise of promises) {
+      promises.forEach((promise, index) => {
         if (!(promise instanceof MyPromise)) {
-          result.push(promise);
+          result[index] = promise;
           counter++;
           if (counter === promises.length) {
             resolve(result);
@@ -120,7 +120,7 @@ class MyPromise {
         } else {
           promise.then(
             (res) => {
-              result.push(res);
+              result[index] = res;
               counter++;
               if (counter === promises.length) {
                 resolve(result);
@@ -131,7 +131,7 @@ class MyPromise {
             }
           );
         }
-      }
+      });
     });
   }
 }
