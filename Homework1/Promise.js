@@ -114,20 +114,23 @@ class MyPromise {
         if (!(promise instanceof MyPromise)) {
           result.push(promise);
           counter++;
+          if (counter === promises.length) {
+            resolve(result);
+          }
         } else {
           promise.then(
             (res) => {
               result.push(res);
               counter++;
+              if (counter === promises.length) {
+                resolve(result);
+              }
             },
             (err) => {
               reject(err);
             }
           );
         }
-      }
-      if (counter === promises.length) {
-        resolve(result);
       }
     });
   }
