@@ -135,7 +135,7 @@ class MyPromise {
 function ajax(url, config) {
   const { type = "GET", headers = {}, data = {} } = config;
 
-  return new Promise((resolve, reject) => {
+  return new MyPromise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
     xhr.open(type.toUpperCase(), url);
 
