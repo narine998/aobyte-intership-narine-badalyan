@@ -111,18 +111,23 @@ class MyPromise {
       let counter = 0;
       const result = [];
       for (let promise of promises) {
-        promise.then(
-          (res) => {
-            result.push(res);
-            counter++;
-            if (counter === promises.length) {
-              resolve(result);
+        if (!(promise instanceof MyPromise)) {
+          result.push(promise);
+          counter++;
+        } else {
+          promise.then(
+            (res) => {
+              result.push(res);
+              counter++;
+              if (counter === promises.length) {
+                resolve(result);
+              }
+            },
+            (err) => {
+              reject(err);
             }
-          },
-          (err) => {
-            reject(err);
-          }
-        );
+          );
+        }
       }
     });
   }
