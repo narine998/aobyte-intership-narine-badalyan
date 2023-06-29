@@ -116,6 +116,14 @@ class MyPromise {
     });
   }
 
+  static resolve(value) {
+    return new MyPromise((res) => res(value));
+  }
+
+  static reject(err) {
+    return new MyPromise((res, rej) => rej(err));
+  }
+
   static all(promises) {
     return new MyPromise((resolve, reject) => {
       let counter = 0;
