@@ -106,6 +106,16 @@ class MyPromise {
     return this.then(null, onError);
   }
 
+  finally(onFinally) {
+    return this.then((value) => {
+      onFinally();
+      return value;
+    }).catch((err) => {
+      onFinally();
+      throw err;
+    });
+  }
+
   static all(promises) {
     return new MyPromise((resolve, reject) => {
       let counter = 0;
