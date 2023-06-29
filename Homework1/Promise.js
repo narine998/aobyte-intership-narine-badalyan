@@ -107,13 +107,24 @@ class MyPromise {
   }
 
   finally(onFinally) {
-    return this.then((value) => {
-      onFinally();
-      return value;
-    }).catch((err) => {
-      onFinally();
-      throw err;
-    });
+    return this.then(
+      (value) => {
+        try {
+          onFinally();
+          return value;
+        } catch (err) {
+          throw err;
+        }
+      },
+      (reason) => {
+        try {
+          onFinally();
+          throw reason;
+        } catch (err) {
+          throw err;
+        }
+      }
+    );
   }
 
   static resolve(value) {
