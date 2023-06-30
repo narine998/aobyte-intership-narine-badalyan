@@ -34,41 +34,7 @@ class MyPromise {
 
   then(onSuccess, onFailure) {
     return new MyPromise((res, rej) => {
-      if (this.state === "pending") {
-        this.fulfilledHandlers.push(() => {
-          try {
-            if (typeof onSuccess === "function") {
-              const returnedFromOnFulfilled = onSuccess(this.result);
-              if (returnedFromOnFulfilled instanceof MyPromise) {
-                returnedFromOnFulfilled.then(res, rej);
-              } else {
-                res(returnedFromOnFulfilled);
-              }
-            } else {
-              res(this.result);
-            }
-          } catch (err) {
-            rej(err);
-          }
-        });
-
-        this.rejectedHandlers.push(() => {
-          try {
-            if (typeof onFailure === "function") {
-              const returnedFromOnRejected = onFailure(this.result);
-              if (returnedFromOnRejected instanceof MyPromise) {
-                returnedFromOnRejected.then(res, rej);
-              } else {
-                res(returnedFromOnRejected);
-              }
-            } else {
-              rej(this.result);
-            }
-          } catch (err) {
-            rej(err);
-          }
-        });
-      } else if (this.state === "fulfilled") {
+      const resolveHandler = () => {
         try {
           if (typeof onSuccess === "function") {
             const returnedFromOnFulfilled = onSuccess(this.result);
@@ -83,7 +49,9 @@ class MyPromise {
         } catch (err) {
           rej(err);
         }
-      } else {
+      };
+
+      const rejectHandler = () => {
         try {
           if (typeof onFailure === "function") {
             const returnedFromOnRejected = onFailure(this.result);
@@ -98,6 +66,15 @@ class MyPromise {
         } catch (err) {
           rej(err);
         }
+      };
+
+      if (this.state === "pending") {
+        this.fulfilledHandlers.push(resolveHandler);
+        this.rejectedHandlers.push(rejectHandler);
+      } else if (this.state === "fulfilled") {
+        resolveHandler();
+      } else {
+        rejectHandler();
       }
     });
   }
@@ -170,10 +147,10 @@ class MyPromise {
 // *************************//
 
 function ajax(url, config) {
-  const { type = "GET", headers = {}, data = {} } = config;
+  const { method = "GET", headers = {}, data = {} } = config;
 
   return new MyPromise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open(type.toUpperCase(), url);
 
     Object.entries(headers).forEach(([key, value]) => {
@@ -210,7 +187,7 @@ function setCorrectRequestData(data) {
 
 const url = "/article/xmlhttprequest/post/user";
 const config = {
-  type: "POST",
+  method: "POST",
   headers: {},
   data: { name: "Narine", surName: "Badalyan" },
 };
