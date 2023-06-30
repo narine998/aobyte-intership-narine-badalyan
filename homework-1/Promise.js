@@ -13,7 +13,7 @@ class MyPromise {
       if (this.state === "pending") {
         this.state = "fulfilled";
         this.result = value;
-        this.fulfilledHandlers.forEach((f) => f(value));
+        this.fulfilledHandlers.forEach((f) => f());
       }
     };
 
@@ -21,7 +21,7 @@ class MyPromise {
       if (this.state === "pending") {
         this.state = "rejected";
         this.result = error;
-        this.rejectedHandlers.forEach((f) => f(error));
+        this.rejectedHandlers.forEach((f) => f());
       }
     };
 
