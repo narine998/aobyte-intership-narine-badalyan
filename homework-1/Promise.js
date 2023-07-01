@@ -151,16 +151,16 @@ function ajax(url, config) {
 
   return new MyPromise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open(type.toUpperCase(), url);
+    xhr.open(method.toUpperCase(), url);
 
     Object.entries(headers).forEach(([key, value]) => {
       xhr.setRequestHeader(key, value);
     });
 
-    xhr.send(setCorrectRequestData(data));
+    xhr.send(setCorrectRequestData(headers, data));
 
     xhr.onload = function () {
-      resolve(xhr.response);
+      resolve(JSON.parse(xhr.response));
     };
 
     xhr.onerror = function () {
@@ -169,7 +169,7 @@ function ajax(url, config) {
   });
 }
 
-function setCorrectRequestData(data) {
+function setCorrectRequestData(headers, data) {
   const contentType = headers["Content-Type"];
 
   if (contentType === "application/json") {
