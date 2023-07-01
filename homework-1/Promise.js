@@ -185,13 +185,13 @@ function setCorrectRequestData(headers, data) {
   }
 }
 
-const url = "/article/xmlhttprequest/post/user";
+const url = "https://api.thecatapi.com/v1/categories";
 const config = {
   method: "POST",
-  headers: {},
+  headers: { "Content-Type": "application/json" },
   data: { name: "Narine", surName: "Badalyan" },
 };
 
 ajax(url, config)
   .then((resp) => console.log("Success: ", resp))
-  .catch((err) => console.log("Error", err));
+  .catch((err) => console.log("Error", err.message));
