@@ -13,7 +13,7 @@ class MyPromise {
       if (this.state === "pending") {
         this.state = "fulfilled";
         this.result = value;
-        this.fulfilledHandlers.forEach((f) => f(value));
+        this.fulfilledHandlers.forEach((f) => f());
       }
     };
 
@@ -21,7 +21,7 @@ class MyPromise {
       if (this.state === "pending") {
         this.state = "rejected";
         this.result = error;
-        this.rejectedHandlers.forEach((f) => f(error));
+        this.rejectedHandlers.forEach((f) => f());
       }
     };
 
@@ -34,41 +34,7 @@ class MyPromise {
 
   then(onSuccess, onFailure) {
     return new MyPromise((res, rej) => {
-      if (this.state === "pending") {
-        this.fulfilledHandlers.push(() => {
-          try {
-            if (typeof onSuccess === "function") {
-              const returnedFromOnFulfilled = onSuccess(this.result);
-              if (returnedFromOnFulfilled instanceof MyPromise) {
-                returnedFromOnFulfilled.then(res, rej);
-              } else {
-                res(returnedFromOnFulfilled);
-              }
-            } else {
-              res(this.result);
-            }
-          } catch (err) {
-            rej(err);
-          }
-        });
-
-        this.rejectedHandlers.push(() => {
-          try {
-            if (typeof onFailure === "function") {
-              const returnedFromOnRejected = onFailure(this.result);
-              if (returnedFromOnRejected instanceof MyPromise) {
-                returnedFromOnRejected.then(res, rej);
-              } else {
-                res(returnedFromOnRejected);
-              }
-            } else {
-              rej(this.result);
-            }
-          } catch (err) {
-            rej(err);
-          }
-        });
-      } else if (this.state === "fulfilled") {
+      const resolveHandler = () => {
         try {
           if (typeof onSuccess === "function") {
             const returnedFromOnFulfilled = onSuccess(this.result);
@@ -83,7 +49,9 @@ class MyPromise {
         } catch (err) {
           rej(err);
         }
-      } else {
+      };
+
+      const rejectHandler = () => {
         try {
           if (typeof onFailure === "function") {
             const returnedFromOnRejected = onFailure(this.result);
@@ -98,6 +66,15 @@ class MyPromise {
         } catch (err) {
           rej(err);
         }
+      };
+
+      if (this.state === "pending") {
+        this.fulfilledHandlers.push(resolveHandler);
+        this.rejectedHandlers.push(rejectHandler);
+      } else if (this.state === "fulfilled") {
+        resolveHandler();
+      } else {
+        rejectHandler();
       }
     });
   }
@@ -170,20 +147,20 @@ class MyPromise {
 // *************************//
 
 function ajax(url, config) {
-  const { type = "GET", headers = {}, data = {} } = config;
+  const { method = "GET", headers = {}, data = {} } = config;
 
   return new MyPromise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-    xhr.open(type.toUpperCase(), url);
+    const xhr = new XMLHttpRequest();
+    xhr.open(method.toUpperCase(), url);
 
     Object.entries(headers).forEach(([key, value]) => {
       xhr.setRequestHeader(key, value);
     });
 
-    xhr.send(setCorrectRequestData(data));
+    xhr.send(setCorrectRequestData(headers, data));
 
     xhr.onload = function () {
-      resolve(xhr.response);
+      resolve(JSON.parse(xhr.response));
     };
 
     xhr.onerror = function () {
@@ -192,7 +169,7 @@ function ajax(url, config) {
   });
 }
 
-function setCorrectRequestData(data) {
+function setCorrectRequestData(headers, data) {
   const contentType = headers["Content-Type"];
 
   if (contentType === "application/json") {
@@ -208,13 +185,13 @@ function setCorrectRequestData(data) {
   }
 }
 
-const url = "/article/xmlhttprequest/post/user";
+const url = "https://api.thecatapi.com/v1/categories";
 const config = {
-  type: "POST",
-  headers: {},
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   data: { name: "Narine", surName: "Badalyan" },
 };
 
 ajax(url, config)
   .then((resp) => console.log("Success: ", resp))
-  .catch((err) => console.log("Error", err));
+  .catch((err) => console.log("Error", err.message));
