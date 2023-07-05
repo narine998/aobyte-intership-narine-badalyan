@@ -25,7 +25,7 @@
 class DomElement {
   constructor(attrs, children) {
     this.attributes = attrs;
-    this.children = children;
+    this.children = Array.isArray(children) ? children : [children];
 
     if (new.target === DomElement) {
       throw new Error("Can not instantiate base class.");
@@ -38,34 +38,27 @@ class DomElement {
       domElement.setAttribute(attr, this.attributes[attr]);
     }
 
-    if (this.children) {
-      if (typeof this.children === "string") {
-        domElement.appendChild(document.createTextNode(this.children));
-      } else if (Array.isArray(this.children)) {
-        this.children.forEach((child) => domElement.appendChild(child.draw()));
-      } else if (this.children instanceof DomElement) {
-        domElement.appendChild(this.children.draw());
-      }
-    }
+    this.children.forEach((child) => domElement.appendChild(child.draw()));
+
     return domElement;
   }
 }
 
 class DivElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.type = type;
+    this.tagName = "div";
   }
 
   draw() {
-    return super.draw(this.type);
+    return super.draw(this.tagName);
   }
 }
 
 class SpanElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "span";
   }
 
   draw() {
@@ -74,9 +67,9 @@ class SpanElement extends DomElement {
 }
 
 class ParagraphElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "p";
   }
 
   draw() {
@@ -85,9 +78,9 @@ class ParagraphElement extends DomElement {
 }
 
 class FormElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "form";
   }
 
   draw() {
@@ -96,9 +89,9 @@ class FormElement extends DomElement {
 }
 
 class InputElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "input";
   }
 
   draw() {
@@ -107,9 +100,9 @@ class InputElement extends DomElement {
 }
 
 class LabelElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "label";
   }
 
   draw() {
@@ -118,9 +111,9 @@ class LabelElement extends DomElement {
 }
 
 class BrElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "br";
   }
 
   draw() {
@@ -129,9 +122,9 @@ class BrElement extends DomElement {
 }
 
 class ButtonElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "button";
   }
 
   draw() {
@@ -140,9 +133,9 @@ class ButtonElement extends DomElement {
 }
 
 class UlElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "ul";
   }
 
   draw() {
@@ -151,9 +144,9 @@ class UlElement extends DomElement {
 }
 
 class LiElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "li";
   }
 
   draw() {
@@ -162,9 +155,9 @@ class LiElement extends DomElement {
 }
 
 class AnchorElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "a";
   }
 
   draw() {
@@ -173,9 +166,9 @@ class AnchorElement extends DomElement {
 }
 
 class ImgElement extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "img";
   }
 
   draw() {
@@ -184,13 +177,24 @@ class ImgElement extends DomElement {
 }
 
 class H1Element extends DomElement {
-  constructor(type, ...args) {
+  constructor(...args) {
     super(...args);
-    this.tagName = type;
+    this.tagName = "h1";
   }
 
   draw() {
     return super.draw(this.tagName);
+  }
+}
+
+class ChildElement extends DomElement {
+  constructor(attrs, children) {
+    super(attrs, children);
+    this.text = children ?? "";
+  }
+
+  draw() {
+    return document.createTextNode(this.text);
   }
 }
 
@@ -212,7 +216,10 @@ const tagClasses = {
 
 function el(type, attrs, children) {
   if (tagClasses.hasOwnProperty(type)) {
-    return new tagClasses[type](type, attrs, children);
+    if (!(children instanceof DomElement) && !Array.isArray(children)) {
+      children = new ChildElement(attrs, children);
+    }
+    return new tagClasses[type](attrs, children);
   } else {
     throw new Error(`Sorry. "${type}" tag not implemented`);
   }
@@ -220,13 +227,13 @@ function el(type, attrs, children) {
 
 // Test case 1.
 
-// const tree = el(
-//   "div",
-//   { class: "some_classname", id: "some_id" },
-//   el("span", {}, "hello")
-// );
-// console.log(tree);
-// document.getElementById("root").appendChild(tree.draw());
+let tree = el(
+  "div",
+  { class: "some_classname", id: "some_id" },
+  el("span", {}, "hello")
+);
+
+document.getElementById("root").appendChild(tree.draw());
 
 // //Renders:
 /* <div id='root'>
@@ -236,16 +243,16 @@ function el(type, attrs, children) {
 </div> */
 
 //Test case 2.
-// const tree = el(
-//   "div",
-//   {},
-//   el("ul", {}, [
-//     el("li", {}, "Item 1"),
-//     el("li", {}, "Item 2"),
-//     el("li", {}, "Item 3"),
-//   ])
-// );
-// document.getElementById("root").appendChild(tree.draw());
+tree = el(
+  "div",
+  {},
+  el("ul", {}, [
+    el("li", {}, "Item 1"),
+    el("li", {}, "Item 2"),
+    el("li", {}, "Item 3"),
+  ])
+);
+document.getElementById("root").appendChild(tree.draw());
 
 // //Renders:
 /* <div id='root'>
@@ -259,7 +266,7 @@ function el(type, attrs, children) {
 </div> */
 
 //Test case 3.
-const tree = el("form", { action: "/some_action" }, [
+tree = el("form", { action: "/some_action" }, [
   el("label", { for: "name" }, "First name:"),
   el("br", {}, null),
   el(
