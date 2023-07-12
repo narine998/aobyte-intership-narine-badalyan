@@ -7,95 +7,56 @@ import pool from "../data/postsData";
 import findAverageRate from "../helpers/FindAverageRates";
 import sortByRate from "../helpers/SortByRate";
 
-const dummyPosts = sortByRate(findAverageRate(pool));
+const dummyPosts = sortByRate(findAverageRate(pool), true);
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      initialLeftPosts: [],
-      initialRightPosts: [],
+      leftBoard: [],
+      rightBoard: [],
       pool: dummyPosts,
-      isAscendingLeft: false,
-      isAscendingRight: false,
     };
   }
 
-  addPostOnLeft = () => {
+  addPost = (place, order) => {
+    if (order === "ascending") {
+      this.setState({
+        [place]: sortByRate([...this.state[place], this.state.pool[0]], true),
+        pool: this.state.pool.slice(1),
+      });
+    } else {
+      this.setState({
+        [place]: sortByRate(
+          [...this.state[place], this.state.pool[this.state.pool.length - 1]],
+          false
+        ),
+        pool: this.state.pool.slice(0, -1),
+      });
+    }
+  };
+
+  clearAllPosts = (place) => {
     this.setState({
-      initialLeftPosts: sortByRate(
-        [...this.state.initialLeftPosts, ...this.state.pool.slice(-1)],
-        this.state.isAscendingLeft
+      pool: sortByRate([...this.state[place], ...this.state.pool], true),
+      [place]: [],
+    });
+  };
+
+  sortPosts = (place, order) => {
+    let sortOrder = order === "ascending" ? true : false;
+    this.setState({
+      [place]: sortByRate(this.state[place], sortOrder),
+    });
+  };
+
+  deletePost = (place, id) => {
+    this.setState({
+      pool: sortByRate(
+        [...this.state.pool, this.state[place].find((item) => item.id === id)],
+        true
       ),
-      pool: this.state.pool.slice(0, -1),
-    });
-  };
-
-  addPostOnRight = () => {
-    this.setState({
-      initialRightPosts: sortByRate(
-        [...this.state.initialRightPosts, ...this.state.pool.slice(-1)],
-        this.state.isAscendingRight
-      ),
-      pool: this.state.pool.slice(0, -1),
-    });
-  };
-
-  clearAllPostsOnRight = () => {
-    this.setState({
-      pool: sortByRate([...this.state.initialRightPosts, ...this.state.pool]),
-      initialRightPosts: [],
-    });
-  };
-
-  clearAllPostsOnLeft = () => {
-    this.setState({
-      pool: sortByRate([...this.state.initialLeftPosts, ...this.state.pool]),
-      initialLeftPosts: [],
-    });
-  };
-
-  sortPostsOnLeft = () => {
-    this.setState({
-      initialLeftPosts: sortByRate(
-        this.state.initialLeftPosts,
-        !this.state.isAscendingLeft
-      ),
-      isAscendingLeft: !this.state.isAscendingLeft,
-    });
-  };
-
-  sortPostsOnRight = () => {
-    this.setState({
-      initialRightPosts: sortByRate(
-        this.state.initialRightPosts,
-        !this.state.isAscendingRight
-      ),
-      isAscendingRight: !this.state.isAscendingRight,
-    });
-  };
-
-  deletePostOnLeft = (id) => {
-    this.setState({
-      pool: sortByRate([
-        ...this.state.pool,
-        this.state.initialLeftPosts.find((item) => item.id === id),
-      ]),
-      initialLeftPosts: this.state.initialLeftPosts.filter(
-        (item) => item.id !== id
-      ),
-    });
-  };
-
-  deletePostOnRight = (id) => {
-    this.setState({
-      pool: sortByRate([
-        ...this.state.pool,
-        this.state.initialRightPosts.find((item) => item.id === id),
-      ]),
-      initialRightPosts: this.state.initialRightPosts.filter(
-        (item) => item.id !== id
-      ),
+      [place]: this.state[place].filter((item) => item.id !== id),
     });
   };
 
@@ -108,24 +69,24 @@ class Main extends Component {
         <div className={`${styles.dflex} ${styles["boards-container"]}`}>
           <Board>
             <ActionBar
-              onAddPost={this.addPostOnLeft}
-              onClearAll={this.clearAllPostsOnLeft}
-              onSort={this.sortPostsOnLeft}
+              onAddPost={(order) => this.addPost("leftBoard", order)}
+              onClearAll={() => this.clearAllPosts("leftBoard")}
+              onSort={(order) => this.sortPosts("leftBoard", order)}
             />
             <PostsContainer
-              posts={this.state.initialLeftPosts}
-              onDelete={this.deletePostOnLeft}
+              posts={this.state.leftBoard}
+              onDelete={(id) => this.deletePost("leftBoard", id)}
             />
           </Board>
           <Board>
             <ActionBar
-              onAddPost={this.addPostOnRight}
-              onClearAll={this.clearAllPostsOnRight}
-              onSort={this.sortPostsOnRight}
+              onAddPost={(order) => this.addPost("rightBoard", order)}
+              onClearAll={() => this.clearAllPosts("rightBoard")}
+              onSort={(order) => this.sortPosts("rightBoard", order)}
             />
             <PostsContainer
-              posts={this.state.initialRightPosts}
-              onDelete={this.deletePostOnRight}
+              posts={this.state["rightBoard"]}
+              onDelete={(id) => this.deletePost("rightBoard", id)}
             />
           </Board>
         </div>

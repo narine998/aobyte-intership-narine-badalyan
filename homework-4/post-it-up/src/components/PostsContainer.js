@@ -7,7 +7,11 @@ class PostsContainer extends Component {
     return (
       <ul className={styles.card}>
         {this.props.posts.map((post) => (
-          <PostCard post={post} key={post.id} onDelete={this.props.onDelete} />
+          <PostCard
+            post={post}
+            key={post.id}
+            onDelete={(id) => this.props.onDelete(id)}
+          />
         ))}
       </ul>
     );
