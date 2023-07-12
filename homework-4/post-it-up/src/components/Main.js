@@ -1,10 +1,10 @@
 import { Component } from "react";
 import Board from "./Board";
-import styles from "./Main.module.css";
 import ActionBar from "./ActionsBar";
+import PostsContainer from "./PostsContainer";
+import styles from "./Main.module.css";
 import pool from "../data/postsData";
 import findAverageRate from "../helpers/FindAverageRates";
-import PostsContainer from "./PostsContainer";
 import sortByRate from "../helpers/SortByRate";
 
 const dummyPosts = sortByRate(findAverageRate(pool));
@@ -41,9 +41,9 @@ class Main extends Component {
     });
   };
 
-  clearAllPostsOnRight = (desk) => {
+  clearAllPostsOnRight = () => {
     this.setState({
-      pool: [...this.state.initialRightPosts, ...this.state.pool],
+      pool: sortByRate([...this.state.initialRightPosts, ...this.state.pool]),
       initialRightPosts: [],
     });
   };
