@@ -1,0 +1,9 @@
+.button-cont {
+  justify-content: space-between;
+}
+.d-flex {
+  display: flex;
+}
+.gap {
+  gap: 0.7rem;
+}
