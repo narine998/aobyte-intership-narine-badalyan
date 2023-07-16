@@ -10,7 +10,7 @@ class PostsContainer extends Component {
           <PostCard
             post={post}
             key={post.id}
-            onDelete={(id) => this.props.onDelete(id)}
+            onDelete={() => this.props.onDelete(post.id)}
           />
         ))}
       </ul>

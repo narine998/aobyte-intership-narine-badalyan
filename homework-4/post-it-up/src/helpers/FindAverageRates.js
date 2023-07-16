@@ -6,8 +6,10 @@ function findAverageRate(arr) {
     return {
       id: item.id,
       title: item.title,
+      comments: item.comments,
       rate: Math.round(rate * 100) / 100,
       face: rate > 4 ? "\u{1F600}" : "\u{1F614}",
+      disabled: false,
     };
   });
 }
