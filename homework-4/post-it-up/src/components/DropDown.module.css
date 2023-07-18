@@ -1,0 +1,13 @@
+.select {
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+  border: 0.2rem solid rgb(163, 163, 212);
+  border-radius: 0.5rem;
+  font-size: 1.7rem;
+  background-color: #f0f0f0;
+}
+
+.select:hover {
+  background-color: rgb(215, 216, 216);
+  color: rgb(73, 48, 48);
+}
