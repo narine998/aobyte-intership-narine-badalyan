@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styles from "./Comment.module.css";
-import rateStar from "../assets/star.png";
-import user from "../assets/user.png";
+import rateStar from "../../assets/star.png";
+import user from "../../assets/user.png";
 
 class Comment extends Component {
   render() {

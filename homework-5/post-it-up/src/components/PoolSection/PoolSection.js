@@ -1,8 +1,7 @@
 import { Component } from "react";
+import { Comment, Pagination } from "../";
+import { POSTSPERPAGE } from "../../constants/Constant";
 import styles from "./PoolSection.module.css";
-import Comment from "./Comment";
-import { POSTSPERPAGE } from "../constants/Constant";
-import Pagination from "./Pagination";
 
 class PoolSection extends Component {
   state = { currentPageIndex: 1 };

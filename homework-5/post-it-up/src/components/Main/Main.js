@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import pool from "../data/postsData";
-import findAverageRate from "../helpers/FindAverageRates";
-import PoolSection from "./PoolSection";
-import Header from "./Header";
-import Boards from "./Boards";
+import { Boards, Header, PoolSection } from "../";
+import pool from "../../data/postsData";
+import findAverageRate from "../../helpers/FindAverageRates";
 
 const dummyPosts = findAverageRate(pool);
 

@@ -1,7 +1,6 @@
 import { Component } from "react";
-import Button from "./Button";
+import { Button, DropDown } from "../";
 import styles from "./ActionsBar.module.css";
-import DropDown from "./DropDown";
 
 class ActionBar extends Component {
   state = {
@@ -9,20 +8,22 @@ class ActionBar extends Component {
   };
 
   render() {
+    const { onClearAll, onAddPost, onSort, addBtnDisabled } = this.props;
     return (
       <div className={`${styles["button-cont"]} ${styles["d-flex"]}`}>
         <div className={`${styles.gap} ${styles["d-flex"]}`}>
-          <Button onClick={this.props.onClearAll}>Clear all</Button>
+          <Button onClick={onClearAll}>Clear all</Button>
           <DropDown
             onChange={(value) => {
               this.setState({ ascending: value });
-              this.props.onSort(value);
+              onSort(value);
             }}
           ></DropDown>
         </div>
         <Button
+          disabled={addBtnDisabled}
           onClick={() => {
-            this.props.onAddPost(this.state.ascending);
+            onAddPost(this.state.ascending);
           }}
         >
           +

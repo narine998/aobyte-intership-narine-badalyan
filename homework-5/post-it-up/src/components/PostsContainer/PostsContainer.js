@@ -1,5 +1,5 @@
 import { Component } from "react";
-import PostCard from "./PostCard";
+import { PostCard } from "../";
 import styles from "./PostsContainer.module.css";
 
 class PostsContainer extends Component {

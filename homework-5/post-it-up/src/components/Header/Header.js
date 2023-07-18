@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styles from "./Header.module.css";
-import favicon from "../assets/favicon.png";
-import searchIcon from "../assets/search.png";
+import favicon from "../../assets/favicon.png";
+import searchIcon from "../../assets/search.png";
 
 class Header extends Component {
   handleKeyDown = (e) => {
