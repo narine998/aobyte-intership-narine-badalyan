@@ -1,0 +1,35 @@
+.boards-section {
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.boards-container {
+  width: 100%;
+  gap: 5rem;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 45%;
+  padding: 1.5rem;
+  box-shadow: 0 0 1.2rem rgb(157, 152, 152);
+  background-color: rgb(252 236 236);
+}
+
+.dflex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  color: #6c5c57;
+  text-align: center;
+}
