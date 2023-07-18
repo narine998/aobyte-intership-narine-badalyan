@@ -1,0 +1,30 @@
+.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 5rem;
+}
+
+.pagination li {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0.8rem #263130;
+  border-radius: 50%;
+}
+
+.pagination li a {
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.8rem;
+  color: #6c4141;
+}
+
+.pagination .currentPage {
+  color: #e2d6cc;
+}
