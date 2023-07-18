@@ -4,8 +4,8 @@ import styles from "./Pagination.module.css";
 class Pagination extends Component {
   render() {
     const { pageCount, handlePageChange, currentPageIndex } = this.props;
-    console.log(currentPageIndex);
     const pageArr = " ".repeat(pageCount - 1).split(" ");
+
     return (
       <ul className={styles.pagination}>
         {pageArr.map((item, index) => (

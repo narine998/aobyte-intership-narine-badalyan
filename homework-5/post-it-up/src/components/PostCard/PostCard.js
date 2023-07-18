@@ -1,6 +1,6 @@
 import { Component } from "react";
+import { Button } from "../";
 import styles from "./PostCard.module.css";
-import Button from "./Button";
 
 class PostCard extends Component {
   render() {

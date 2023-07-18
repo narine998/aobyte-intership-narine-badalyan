@@ -1,11 +1,9 @@
 import { Component } from "react";
+import { ActionBar, Layout, PostsContainer } from "../";
+import pool from "../../data/postsData";
+import findAverageRate from "../../helpers/FindAverageRates";
+import sortByRate from "../../helpers/SortByRate";
 import styles from "./Boards.module.css";
-import pool from "../data/postsData";
-import findAverageRate from "../helpers/FindAverageRates";
-import sortByRate from "../helpers/SortByRate";
-import Layout from "./Layout";
-import ActionBar from "./ActionsBar";
-import PostsContainer from "./PostsContainer";
 
 const sortedPool = sortByRate(findAverageRate(pool), true);
 
@@ -20,26 +18,26 @@ class Boards extends Component {
   }
 
   addPost = (place, order) => {
-    let addedPost = {};
-
-    if (order === "ascending") {
-      addedPost = this.state.pool[0];
-      this.setState({
-        [place]: sortByRate([...this.state[place], this.state.pool[0]], true),
-        pool: this.state.pool.slice(1),
-      });
-    } else {
-      addedPost = this.state.pool[this.state.pool.length - 1];
-      this.setState({
-        [place]: sortByRate(
-          [...this.state[place], this.state.pool[this.state.pool.length - 1]],
-          false
-        ),
-        pool: this.state.pool.slice(0, -1),
-      });
+    if (this.state.pool.length) {
+      let addedPost = {};
+      if (order === "ascending") {
+        addedPost = this.state.pool[0];
+        this.setState({
+          [place]: sortByRate([...this.state[place], this.state.pool[0]], true),
+          pool: this.state.pool.slice(1),
+        });
+      } else {
+        addedPost = this.state.pool[this.state.pool.length - 1];
+        this.setState({
+          [place]: sortByRate(
+            [...this.state[place], this.state.pool[this.state.pool.length - 1]],
+            false
+          ),
+          pool: this.state.pool.slice(0, -1),
+        });
+      }
+      this.props.disablePost(addedPost.id);
     }
-
-    this.props.disablePost(addedPost.id);
   };
 
   clearAllPosts = (place) => {
@@ -84,6 +82,7 @@ class Boards extends Component {
               onAddPost={(order) => this.addPost("leftBoard", order)}
               onClearAll={() => this.clearAllPosts("leftBoard")}
               onSort={(order) => this.sortPosts("leftBoard", order)}
+              addBtnDisabled={!this.state.pool.length}
             />
             <PostsContainer
               posts={this.state.leftBoard}
@@ -95,6 +94,7 @@ class Boards extends Component {
               onAddPost={(order) => this.addPost("rightBoard", order)}
               onClearAll={() => this.clearAllPosts("rightBoard")}
               onSort={(order) => this.sortPosts("rightBoard", order)}
+              addBtnDisabled={!this.state.pool.length}
             />
             <PostsContainer
               posts={this.state["rightBoard"]}
