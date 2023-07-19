@@ -1,0 +1,30 @@
+.button-cont {
+  justify-content: space-between;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.gap {
+  gap: 2.7rem;
+}
+
+.clear,
+.addBtn {
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+}
+
+.clear:hover,
+.addBtn:hover {
+  box-shadow: 0 0 1.5rem #e67e22;
+  border-radius: 50%;
+}
+
+.disabled {
+  opacity: 0.5;
+  width: 4rem;
+  height: 4rem;
+}
