@@ -66,7 +66,13 @@ class Post extends Component {
   render() {
     const { post } = this.props;
     return (
-      <div className={post.disabled ? styles.disabled : styles.postBoard}>
+      <div
+        className={
+          post.disabled
+            ? `${styles.disabled} ${styles.postBoard}`
+            : styles.postBoard
+        }
+      >
         <p className={styles.title}>{post.title}</p>
         <div className={styles.commentBox}>
           <span

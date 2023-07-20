@@ -24,4 +24,10 @@
 
 .deleteBtn {
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deleteBtn:hover {
+  box-shadow: 0 0 1.5rem #f7ad23;
+  border-radius: 40%;
 }

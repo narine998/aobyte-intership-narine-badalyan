@@ -9,7 +9,7 @@ class NewComment extends Component {
   state = {
     commentData: "",
     rate: 4,
-    loading: false,
+    sending: false,
   };
 
   handleTextChange = (e) => {
@@ -18,13 +18,13 @@ class NewComment extends Component {
 
   sendComment = async (postId) => {
     if (this.state.commentData.trim()) {
-      this.setState({ loading: true });
+      this.setState({ sending: true });
       const updatedComments = await addComment(postId, {
         text: this.state.commentData,
         rating: this.state.rate,
       });
       this.props.updateComments(updatedComments);
-      this.setState({ commentData: "", loading: false });
+      this.setState({ commentData: "", sending: false });
     }
   };
 
@@ -49,7 +49,7 @@ class NewComment extends Component {
           onChange={this.handleTextChange}
         />
 
-        {this.state.loading ? (
+        {this.state.sending ? (
           <CircularProgress
             color="warning"
             sx={{ position: "absolute", top: "50%", right: "4%" }}
