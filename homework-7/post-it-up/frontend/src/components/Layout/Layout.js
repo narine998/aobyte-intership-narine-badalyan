@@ -1,9 +1,7 @@
-import { Component } from "react";
+import React from "react";
 
-class Layout extends Component {
-  render() {
-    return <div className={this.props.className}>{this.props.children}</div>;
-  }
+function Layout(props) {
+  return <div className={props.className}>{props.children}</div>;
 }
 
 export default Layout;

@@ -33,10 +33,8 @@ function PoolSection(props) {
     )
   );
   return searchedDummyPosts.length ? (
-    <section className={styles["pool-section"]}>
-      <div className={styles["posts-list"]}>
-        {renderPosts(searchedDummyPosts)}
-      </div>
+    <section className={styles.poolSection}>
+      <div className={styles.postsList}>{renderPosts(searchedDummyPosts)}</div>
       <Pagination
         pageCount={numberOfPages}
         handlePageChange={handlePageChange}

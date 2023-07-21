@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { useState } from "react";
 
 import { DropDown } from "../";
 
@@ -7,40 +7,36 @@ import add from "../../assets/add.png";
 
 import styles from "./ActionsBar.module.scss";
 
-class ActionBar extends Component {
-  state = {
-    ascending: false,
-  };
+function ActionsBar(props) {
+  const [ascending, setAscending] = useState(false);
+  const { onClearAll, onAddPost, onSort, addBtnDisabled } = props;
 
-  render() {
-    const { onClearAll, onAddPost, onSort, addBtnDisabled } = this.props;
-    return (
-      <div className={`${styles["button-cont"]} ${styles["d-flex"]}`}>
-        <div className={`${styles.gap} ${styles["d-flex"]}`}>
-          <img
-            className={styles.clear}
-            src={clear}
-            onClick={onClearAll}
-            alt="clear all"
-          />
-          <DropDown
-            onChange={(value) => {
-              this.setState({ ascending: value });
-              onSort(value);
-            }}
-          ></DropDown>
-        </div>
+  return (
+    <div className={`${styles.buttonCont} ${styles.dFlex}`}>
+      <div className={`${styles.gap} ${styles.dFlex}`}>
         <img
-          className={addBtnDisabled ? styles.disabled : styles.addBtn}
-          onClick={() => {
-            onAddPost(this.state.ascending);
-          }}
-          src={add}
-          alt="add"
+          className={styles.clear}
+          src={clear}
+          onClick={onClearAll}
+          alt="clear all"
         />
+        <DropDown
+          onChange={(value) => {
+            setAscending(value);
+            onSort(value);
+          }}
+        ></DropDown>
       </div>
-    );
-  }
+      <img
+        className={addBtnDisabled ? styles.disabled : styles.addBtn}
+        onClick={() => {
+          onAddPost(ascending);
+        }}
+        src={add}
+        alt="add"
+      />
+    </div>
+  );
 }
 
-export default ActionBar;
+export default ActionsBar;
