@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { useState } from "react";
 
 import { ConfirmDialog } from "../";
 
@@ -12,46 +12,42 @@ import clear from "../../assets/clear.png";
 
 import styles from "./Comment.module.scss";
 
-class Comment extends Component {
-  state = {
-    openDialog: false,
-    avatar: getElemAtRandomIndex(AVATARS),
-  };
+function Comment(props) {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [avatar, setAvatar] = useState(getElemAtRandomIndex(AVATARS));
 
-  handleDeleteComment = async (postId, commentId) => {
+  const handleDeleteComment = async (postId, commentId) => {
     const filteredComments = await deleteComment(postId, commentId);
-    this.props.deleteBtnClick(filteredComments.data);
+    props.deleteBtnClick(filteredComments.data);
   };
 
-  handleDialogClose = () => {
-    this.setState({ openDialog: false });
+  const handleDialogClose = () => {
+    setOpenDialog(false);
   };
 
-  render() {
-    const { text, rating, id } = this.props.comment;
+  const { text, rating, id } = props.comment;
 
-    return (
-      <p className={styles.comment}>
-        <img className={styles.avatar} src={this.state.avatar} alt="avatar" />
-        {text}
-        <span className={styles.rate}>
-          <img src={rateStar} alt="rate" />
-          {rating}
-        </span>
-        <ConfirmDialog
-          open={this.state.openDialog}
-          handleClose={this.handleDialogClose}
-          handleDelete={() => this.handleDeleteComment(this.props.postId, id)}
-        />
-        <img
-          onClick={() => this.setState({ openDialog: true })}
-          src={clear}
-          className={styles.deleteBtn}
-          alt="clear"
-        />
-      </p>
-    );
-  }
+  return (
+    <p className={styles.comment}>
+      <img className={styles.avatar} src={avatar} alt="avatar" />
+      {text}
+      <span className={styles.rate}>
+        <img src={rateStar} alt="rate" />
+        {rating}
+      </span>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleDialogClose}
+        handleDelete={() => handleDeleteComment(props.postId, id)}
+      />
+      <img
+        onClick={() => setOpenDialog(true)}
+        src={clear}
+        className={styles.deleteBtn}
+        alt="clear"
+      />
+    </p>
+  );
 }
 
 export default Comment;
