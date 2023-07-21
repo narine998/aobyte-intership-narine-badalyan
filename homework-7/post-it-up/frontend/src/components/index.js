@@ -1,6 +1,5 @@
 export { default as ActionBar } from "./ActionBar/ActionsBar";
 export { default as Boards } from "./Boards/Boards";
-export { default as Button } from "./Button/Button";
 export { default as Comment } from "./Comment/Comment";
 export { default as ConfirmDialog } from "./ConfirmDialog/ConfirmDialog";
 export { default as DropDown } from "./DropDown/DropDown";

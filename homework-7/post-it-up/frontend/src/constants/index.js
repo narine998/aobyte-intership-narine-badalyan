@@ -7,3 +7,7 @@ import man from "../assets/man.png";
 
 export const POSTSPERPAGE = 6;
 export const AVATARS = [user, woman1, girl, woman2, avatar, man];
+
+export const LEFTBOARD = "leftBoard";
+export const RIGHTBOARD = "rightBoard";
+export const RATE = "rate";

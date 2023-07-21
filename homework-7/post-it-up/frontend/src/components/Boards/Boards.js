@@ -1,125 +1,126 @@
-import { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ActionBar, Layout, PostsContainer } from "../";
 
 import { fetchPosts } from "../../api/Api";
 import { findAverageRate, sortObjectsByKey } from "../../helpers/";
+import { LEFTBOARD, RIGHTBOARD, RATE } from "../../constants";
 
 import styles from "./Boards.module.scss";
 
-class Boards extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      leftBoard: [],
-      rightBoard: [],
-      pool: [],
-    };
-  }
+function Boards(props) {
+  const [boards, setBoards] = useState({
+    [LEFTBOARD]: [],
+    [RIGHTBOARD]: [],
+  });
+  const [pool, setPool] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     fetchPosts().then((response) => {
-      this.setState({
-        pool: sortObjectsByKey(findAverageRate(response.data), "rate"),
-      });
+      setPool(sortObjectsByKey(findAverageRate(response.data), RATE));
     });
-  }
+  }, []);
 
-  addPost = (place, order) => {
-    if (this.state.pool.length) {
-      let addedPost = {};
+  const addPost = (place, order) => {
+    if (pool.length) {
+      let addedPost;
+      let direction;
       if (order === "ascending") {
-        addedPost = this.state.pool[0];
-        this.setState({
-          [place]: sortObjectsByKey(
-            [...this.state[place], this.state.pool[0]],
-            "rate",
-            true
-          ),
-          pool: this.state.pool.slice(1),
-        });
+        direction = true;
+        addedPost = pool[0];
+        setPool((prevPool) => prevPool.slice(1));
       } else {
-        addedPost = this.state.pool[this.state.pool.length - 1];
-        this.setState({
-          [place]: sortObjectsByKey(
-            [...this.state[place], this.state.pool[this.state.pool.length - 1]],
-            "rate",
-            false
-          ),
-          pool: this.state.pool.slice(0, -1),
-        });
+        direction = false;
+        addedPost = pool[pool.length - 1];
+        setPool((prevPool) => prevPool.slice(0, -1));
       }
-      this.props.disablePost(addedPost.id);
+
+      setBoards((prevBoards) => {
+        return {
+          ...prevBoards,
+          [place]: sortObjectsByKey(
+            [...prevBoards[place], addedPost],
+            RATE,
+            direction
+          ),
+        };
+      });
+
+      props.disablePost(addedPost.id);
     }
   };
 
-  clearAllPosts = (place) => {
-    this.state[place].forEach((post) => {
-      this.props.disablePost(post.id);
+  const clearAllPosts = (place) => {
+    boards[place].forEach((post) => {
+      props.disablePost(post.id);
     });
-    this.setState({
-      pool: sortObjectsByKey(
-        [...this.state[place], ...this.state.pool],
-        "rate",
+    setPool((prevPool) =>
+      sortObjectsByKey([...boards[place], ...prevPool], RATE, true)
+    );
+    setBoards((prevBoards) => {
+      return { ...prevBoards, [place]: [] };
+    });
+  };
+
+  const sortPosts = (place, order) => {
+    const sortOrder = order === "ascending" ? true : false;
+    setBoards((prevBoards) => {
+      return {
+        ...prevBoards,
+        [place]: sortObjectsByKey(prevBoards[place], RATE, sortOrder),
+      };
+    });
+  };
+
+  const deletePost = (place, id) => {
+    props.disablePost(id);
+    setPool((prevPool) =>
+      sortObjectsByKey(
+        [...prevPool, boards[place].find((item) => item.id === id)],
+        RATE,
         true
-      ),
-      [place]: [],
+      )
+    );
+    setBoards((prevBoards) => {
+      return {
+        ...prevBoards,
+        [place]: prevBoards[place].filter((item) => item.id !== id),
+      };
     });
   };
 
-  sortPosts = (place, order) => {
-    let sortOrder = order === "ascending" ? true : false;
-    this.setState({
-      [place]: sortObjectsByKey(this.state[place], "rate", sortOrder),
-    });
-  };
-
-  deletePost = (place, id) => {
-    this.props.disablePost(id);
-    this.setState({
-      pool: sortObjectsByKey(
-        [...this.state.pool, this.state[place].find((item) => item.id === id)],
-        "rate",
-        true
-      ),
-      [place]: this.state[place].filter((item) => item.id !== id),
-    });
-  };
-
-  render() {
-    return (
-      <Layout
-        className={`${styles["boards-section"]} ${styles.dflex} ${styles.center}`}
-      >
-        <Layout className={`${styles.dflex} ${styles["boards-container"]}`}>
-          <Layout className={styles.board}>
-            <ActionBar
-              onAddPost={(order) => this.addPost("leftBoard", order)}
-              onClearAll={() => this.clearAllPosts("leftBoard")}
-              onSort={(order) => this.sortPosts("leftBoard", order)}
-              addBtnDisabled={!this.state.pool.length}
-            />
-            <PostsContainer
-              posts={this.state.leftBoard}
-              onDelete={(id) => this.deletePost("leftBoard", id)}
-            />
-          </Layout>
-          <Layout className={styles.board}>
-            <ActionBar
-              onAddPost={(order) => this.addPost("rightBoard", order)}
-              onClearAll={() => this.clearAllPosts("rightBoard")}
-              onSort={(order) => this.sortPosts("rightBoard", order)}
-              addBtnDisabled={!this.state.pool.length}
-            />
-            <PostsContainer
-              posts={this.state["rightBoard"]}
-              onDelete={(id) => this.deletePost("rightBoard", id)}
-            />
-          </Layout>
+  return (
+    <Layout
+      className={`${styles.boardsSection} ${styles.dflex} ${styles.center}`}
+    >
+      <Layout className={`${styles.dflex} ${styles.boardsContainer}`}>
+        <Layout className={styles.board}>
+          <ActionBar
+            onAddPost={(order) => addPost(LEFTBOARD, order)}
+            onClearAll={() => clearAllPosts(LEFTBOARD)}
+            onSort={(order) => sortPosts(LEFTBOARD, order)}
+            addBtnDisabled={!pool.length}
+          />
+          <PostsContainer
+            posts={boards[LEFTBOARD]}
+            onDelete={(id) => deletePost(LEFTBOARD, id)}
+          />
+        </Layout>
+        <Layout className={styles.board}>
+          <ActionBar
+            onAddPost={(order) => addPost(RIGHTBOARD, order)}
+            onClearAll={() => clearAllPosts(RIGHTBOARD)}
+            onSort={(order) => sortPosts(RIGHTBOARD, order)}
+            addBtnDisabled={!pool.length}
+          />
+          <PostsContainer
+            posts={boards[RIGHTBOARD]}
+            onDelete={(id) => deletePost(RIGHTBOARD, id)}
+          />
         </Layout>
       </Layout>
-    );
-  }
+    </Layout>
+  );
 }
 
 export default Boards;
