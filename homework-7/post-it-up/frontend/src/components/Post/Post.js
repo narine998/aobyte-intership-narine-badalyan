@@ -62,7 +62,7 @@ function Post(props) {
     >
       <p className={styles.title}>{post.title}</p>
       <div className={styles.commentBox}>
-        <span className={styles["comments-text"]} onClick={showAllComments}>
+        <span className={styles.commentsText} onClick={showAllComments}>
           {openComments ? "Hide comments" : "See all comments"}
         </span>
         <img onClick={sortUpHandler} src={sortUpPng} alt="sort-up" />
