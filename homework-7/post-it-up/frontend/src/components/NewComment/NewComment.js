@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import CircularProgress from "@mui/joy/CircularProgress";
 import Rating from "@mui/material/Rating";
 
@@ -8,65 +8,58 @@ import send from "../../assets/send.png";
 
 import styles from "./NewComment.module.scss";
 
-class NewComment extends Component {
-  state = {
-    commentData: "",
-    rate: 4,
-    sending: false,
+function NewComment(props) {
+  const [commentData, setCommentData] = useState("");
+  const [rate, setRate] = useState(4);
+  const [sending, setSending] = useState(false);
+
+  const handleTextChange = (e) => {
+    setCommentData(e.target.value);
   };
 
-  handleTextChange = (e) => {
-    this.setState({ commentData: e.target.value });
-  };
-
-  sendComment = async (postId) => {
-    if (this.state.commentData.trim()) {
-      this.setState({ sending: true });
+  const sendComment = async (postId) => {
+    if (commentData.trim()) {
+      setSending(true);
       const updatedComments = await addComment(postId, {
-        text: this.state.commentData,
-        rating: this.state.rate,
+        text: commentData,
+        rating: rate,
       });
-      this.props.updateComments(updatedComments);
-      this.setState({ commentData: "", sending: false });
+      props.updateComments(updatedComments);
+      setCommentData("");
+      setSending(false);
     }
   };
 
-  render() {
-    return (
-      <div className={styles.commentCont}>
-        <div className={styles.ratePart}>
-          <span>Rate this post</span>
-          <Rating
-            sx={{ fontSize: "3rem" }}
-            name="simple-controlled"
-            value={this.state.rate}
-            onChange={(event, newValue) => {
-              this.setState({ rate: newValue });
-            }}
-          />
-        </div>
-        <textarea
-          className={styles.textarea}
-          placeholder="Add a new comment..."
-          value={this.state.commentData}
-          onChange={this.handleTextChange}
+  return (
+    <div className={styles.commentCont}>
+      <div className={styles.ratePart}>
+        <span>Rate this post</span>
+        <Rating
+          sx={{ fontSize: "3rem" }}
+          name="simple-controlled"
+          value={rate}
+          onChange={(event, newValue) => {
+            setRate(newValue);
+          }}
         />
-
-        {this.state.sending ? (
-          <CircularProgress
-            color="warning"
-            sx={{ position: "absolute", top: "50%", right: "4%" }}
-          />
-        ) : (
-          <img
-            onClick={() => this.sendComment(this.props.id)}
-            src={send}
-            alt="send"
-          />
-        )}
       </div>
-    );
-  }
+      <textarea
+        className={styles.textarea}
+        placeholder="Add a new comment..."
+        value={commentData}
+        onChange={handleTextChange}
+      />
+
+      {sending ? (
+        <CircularProgress
+          color="warning"
+          sx={{ position: "absolute", top: "50%", right: "4%" }}
+        />
+      ) : (
+        <img onClick={() => sendComment(props.id)} src={send} alt="send" />
+      )}
+    </div>
+  );
 }
 
 export default NewComment;
