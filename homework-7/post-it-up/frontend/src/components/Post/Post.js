@@ -18,17 +18,10 @@ function Post(props) {
     setOpenComments((prevOpenComments) => !prevOpenComments);
   };
 
-  const sortUpHandler = () => {
-    setSortUp(true);
+  const sortComments = (direction) => {
+    setSortUp(direction);
     setComments((prevComments) =>
-      sortObjectsByKey(prevComments, "rating", sortUp)
-    );
-  };
-
-  const sortDownHandler = () => {
-    setSortUp(false);
-    setComments((prevComments) =>
-      sortObjectsByKey(prevComments, "rating", sortUp)
+      sortObjectsByKey(prevComments, "rating", direction)
     );
   };
 
@@ -65,8 +58,18 @@ function Post(props) {
         <span className={styles.commentsText} onClick={showAllComments}>
           {openComments ? "Hide comments" : "See all comments"}
         </span>
-        <img onClick={sortUpHandler} src={sortUpPng} alt="sort-up" />
-        <img onClick={sortDownHandler} src={sortDownPng} alt="sort-down" />
+        <img
+          onClick={() => {
+            sortComments(true);
+          }}
+          src={sortUpPng}
+          alt="sort-up"
+        />
+        <img
+          onClick={() => sortComments(false)}
+          src={sortDownPng}
+          alt="sort-down"
+        />
       </div>
 
       {openComments && (

@@ -28,14 +28,15 @@ function Main(props) {
   };
 
   const disablePost = (id) => {
-    const idx = dummyPosts.findIndex((item) => item.id === id);
-    const changedDummyPosts = [...dummyPosts];
-    changedDummyPosts[idx] = {
-      ...changedDummyPosts[idx],
-      disabled: !changedDummyPosts[idx].disabled,
-    };
-
-    setDummyPosts(changedDummyPosts);
+    setDummyPosts((prevDummyPosts) => {
+      const idx = dummyPosts.findIndex((item) => item.id === id);
+      const changedDummyPosts = [...prevDummyPosts];
+      changedDummyPosts[idx] = {
+        ...changedDummyPosts[idx],
+        disabled: !changedDummyPosts[idx].disabled,
+      };
+      return changedDummyPosts;
+    });
   };
 
   return (
