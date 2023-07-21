@@ -12,17 +12,19 @@ import styles from "./Post.module.scss";
 function Post(props) {
   const [openComments, setOpenComments] = useState(false);
   const [comments, setComments] = useState(props.post.comments);
-  const [sortUp, setSortUp] = useState(true);
+  const [sortUp, setSortUp] = useState(null);
 
   const showAllComments = () => {
     setOpenComments((prevOpenComments) => !prevOpenComments);
   };
 
   const sortComments = (direction) => {
-    setSortUp(direction);
-    setComments((prevComments) =>
-      sortObjectsByKey(prevComments, "rating", direction)
-    );
+    if (direction !== sortUp) {
+      setSortUp(direction);
+      setComments((prevComments) =>
+        sortObjectsByKey(prevComments, "rating", direction)
+      );
+    }
   };
 
   const updateComments = (updatedComments) => {
