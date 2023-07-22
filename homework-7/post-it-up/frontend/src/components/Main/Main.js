@@ -11,6 +11,7 @@ import styles from "./Main.module.scss";
 function Main(props) {
   const [dummyPosts, setDummyPosts] = useState([]);
   const [searchInputValue, setSearchInputValue] = useState("");
+  const [searchType, setSearchType] = useState("title");
   const [loading, setLoading] = useState(true);
 
   const inputRef = useRef(null);
@@ -27,6 +28,10 @@ function Main(props) {
     setSearchInputValue(inputValue);
   };
 
+  const handleSearchTypeChange = (selectedType) => {
+    setSearchType(selectedType);
+  };
+
   const disablePost = (id) => {
     setDummyPosts((prevDummyPosts) => {
       const idx = dummyPosts.findIndex((item) => item.id === id);
@@ -41,17 +46,22 @@ function Main(props) {
 
   return (
     <>
-      <Header inputRef={inputRef} handleInputChange={handleInputChange} />
-      {loading && (
+      <Header
+        inputRef={inputRef}
+        handleInputChange={handleInputChange}
+        handleSearchTypeChange={handleSearchTypeChange}
+        searchType={searchType}
+      />
+      {loading ? (
         <div className={styles.loading}>
           <CircularProgress color="warning" />
         </div>
-      )}
-      {!loading && (
+      ) : (
         <>
           <PoolSection
             dummyPosts={dummyPosts}
             searchInputValue={searchInputValue}
+            searchType={searchType}
           />
           <Boards disablePost={disablePost} />
         </>

@@ -2,16 +2,20 @@ import React from "react";
 
 import styles from "./DropDown.module.scss";
 
-function DropDown(props) {
+function DropDown({ onChange, option1, option2, role }) {
   return (
     <select
       className={styles.select}
       onChange={(e) => {
-        props.onChange(e.target.value);
+        onChange(e.target.value);
       }}
     >
-      <option value={"descending"}>Order by descending</option>
-      <option value={"ascending"}>Order by ascending</option>
+      <option value={option1}>
+        {role} {option1}
+      </option>
+      <option value={option2}>
+        {role} {option2}
+      </option>
     </select>
   );
 }

@@ -25,7 +25,10 @@ function ActionsBar(props) {
             setAscending(value);
             onSort(value);
           }}
-        ></DropDown>
+          option1="descending"
+          option2="ascending"
+          role="Order by"
+        />
       </div>
       <img
         className={addBtnDisabled ? styles.disabled : styles.addBtn}

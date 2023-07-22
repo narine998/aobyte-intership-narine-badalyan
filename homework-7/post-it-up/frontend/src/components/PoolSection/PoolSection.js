@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Post, Pagination } from "../";
 
@@ -8,8 +8,26 @@ import error404 from "../../assets/error.png";
 
 import styles from "./PoolSection.module.scss";
 
-function PoolSection(props) {
+function PoolSection({ searchInputValue, searchType, dummyPosts }) {
   const [currentPageIndex, setCurrentPageIndex] = useState(1);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
+  useEffect(() => {
+    switch (searchType) {
+      case "comment":
+        setFilteredPosts(filterByComments(dummyPosts, searchInputValue));
+        break;
+      case "title":
+        setFilteredPosts(
+          dummyPosts.filter((post) =>
+            post.title
+              .toLowerCase()
+              .includes(searchInputValue.trim().toLowerCase())
+          )
+        );
+        break;
+    }
+  }, [searchInputValue, searchType]);
 
   const handlePageChange = (pageIndex) => {
     if (currentPageIndex !== pageIndex) {
@@ -21,30 +39,46 @@ function PoolSection(props) {
     return posts.map((post) => <Post key={post.id} post={post} />);
   };
 
-  const { searchInputValue, dummyPosts } = props;
-  const numberOfPages = Math.ceil(dummyPosts.length / POSTSPERPAGE);
-  const lastIndex = currentPageIndex * POSTSPERPAGE;
-  const firstIndex = lastIndex - POSTSPERPAGE;
-  const currentPagePosts = dummyPosts.slice(firstIndex, lastIndex);
+  const filterByComments = (posts, searchInputValue) => {
+    return posts.filter((post) =>
+      post.comments.some((comment) =>
+        comment.text
+          .toLowerCase()
+          .includes(searchInputValue.trim().toLowerCase())
+      )
+    );
+  };
 
-  const searchedDummyPosts = currentPagePosts.filter((post) =>
-    post.comments.some((comment) =>
-      comment.text.toLowerCase().includes(searchInputValue.trim().toLowerCase())
-    )
-  );
-  return searchedDummyPosts.length ? (
-    <section className={styles.poolSection}>
-      <div className={styles.postsList}>{renderPosts(searchedDummyPosts)}</div>
-      <Pagination
-        pageCount={numberOfPages}
-        handlePageChange={handlePageChange}
-        currentPageIndex={currentPageIndex}
-      />
-    </section>
-  ) : (
-    <div className={styles.error}>
-      <img src={error404} alt="error" />
-    </div>
+  const getCurrentPagePosts = (posts) => {
+    const lastIndex = currentPageIndex * POSTSPERPAGE;
+    const firstIndex = lastIndex - POSTSPERPAGE;
+    return posts.slice(firstIndex, lastIndex);
+  };
+
+  const currentPagePosts = getCurrentPagePosts(dummyPosts);
+
+  return (
+    <>
+      {searchInputValue.trim() && !filteredPosts.length && (
+        <div className={styles.error}>
+          <img src={error404} alt="error" />
+        </div>
+      )}
+      <section className={styles.poolSection}>
+        <div className={styles.postsList}>
+          {searchInputValue.trim()
+            ? renderPosts(filteredPosts)
+            : renderPosts(currentPagePosts)}
+        </div>
+        {!searchInputValue.trim() && (
+          <Pagination
+            pageCount={Math.ceil(dummyPosts.length / POSTSPERPAGE)}
+            handlePageChange={handlePageChange}
+            currentPageIndex={currentPageIndex}
+          />
+        )}
+      </section>
+    </>
   );
 }
 
