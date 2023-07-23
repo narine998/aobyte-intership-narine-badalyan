@@ -4,9 +4,7 @@ import { PostCard } from "../";
 
 import styles from "./PostsContainer.module.scss";
 
-function PostsContainer(props) {
-  const { posts, onDelete } = props;
-
+function PostsContainer({ posts, onDelete }) {
   return (
     <ul className={styles.card}>
       {posts.map((post) => (

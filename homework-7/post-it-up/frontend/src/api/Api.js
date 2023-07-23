@@ -5,6 +5,7 @@ const api = axios.create({
 });
 
 export const fetchPosts = () => api.get("/posts");
+
 export const addPost = (postData) => api.post("/posts", postData);
 export const addComment = async (postId, commentData) => {
   try {

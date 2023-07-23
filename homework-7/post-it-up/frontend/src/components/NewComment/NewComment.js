@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CircularProgress from "@mui/joy/CircularProgress";
 import Rating from "@mui/material/Rating";
 
-import { addComment } from "../../api/Api";
+import { addComment } from "../../api/api";
 
 import send from "../../assets/send.png";
 

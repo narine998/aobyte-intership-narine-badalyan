@@ -5,11 +5,15 @@ import searchIcon from "../../assets/search.png";
 
 import styles from "./Header.module.scss";
 import DropDown from "../DropDown/DropDown";
+import { Button } from "@mui/material";
 
-function Header(props) {
-  const { inputRef, handleInputChange, handleSearchTypeChange, searchType } =
-    props;
-
+function Header({
+  inputRef,
+  handleInputChange,
+  handleSearchTypeChange,
+  handleLoginClick,
+  searchType,
+}) {
   return (
     <header className={styles.header}>
       <a className={styles.favicon}>
@@ -30,6 +34,14 @@ function Header(props) {
           option2="comment"
           role="Search by"
         />
+      </div>
+      <div className={styles.authContainer}>
+        <Button onClick={handleLoginClick} variant="contained" size="large">
+          Sign In
+        </Button>
+        <Button variant="contained" size="large">
+          Sign Up
+        </Button>
       </div>
     </header>
   );

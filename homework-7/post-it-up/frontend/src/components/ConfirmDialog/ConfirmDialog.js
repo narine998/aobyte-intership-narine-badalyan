@@ -4,8 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 
-function ConfirmDialog(props) {
-  const { open, handleClose, handleDelete } = props;
+function ConfirmDialog({ open, handleClose, handleDelete }) {
   return (
     <Dialog
       open={open}

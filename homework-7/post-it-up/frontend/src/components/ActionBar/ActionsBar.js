@@ -7,9 +7,8 @@ import add from "../../assets/add.png";
 
 import styles from "./ActionsBar.module.scss";
 
-function ActionsBar(props) {
+function ActionsBar({ onClearAll, onAddPost, onSort, addBtnDisabled }) {
   const [ascending, setAscending] = useState(false);
-  const { onClearAll, onAddPost, onSort, addBtnDisabled } = props;
 
   return (
     <div className={`${styles.buttonCont} ${styles.dFlex}`}>

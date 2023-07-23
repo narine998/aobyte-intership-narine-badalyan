@@ -1,3 +1,5 @@
+@import "../../general.scss";
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -7,7 +9,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #fdf2e9;
+  background-color: $header-bgColor;
 }
 
 .header div {
@@ -17,6 +19,10 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+.header select {
+  padding: 0.5rem;
+  width: 16rem;
 }
 
 .header input {
@@ -39,4 +45,17 @@
 .search {
   position: absolute;
   right: 50%;
+}
+
+.authContainer button {
+  width: 13rem;
+  font-size: 1.4rem;
+  border-radius: 1.5rem;
+  background-color: $primary-bgColor;
+  font-weight: bold;
+}
+
+.authContainer button:hover {
+  background-color: $primary-bgHoverColor;
+  box-shadow: 0 0 1.5rem $primary-boxShadow;
 }

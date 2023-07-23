@@ -1,27 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import CircularProgress from "@mui/joy/CircularProgress";
+import React, { useRef, useState } from "react";
 
-import { Boards, Header, PoolSection } from "../";
-
-import { fetchPosts } from "../../api/Api";
-import { findAverageRate } from "../../helpers/";
-
-import styles from "./Main.module.scss";
+import { Boards, Header, PoolSection, Login, SignUp } from "../";
+import useDisableBodyScroll from "../../hooks/UseDisableBodyScroll";
 
 function Main(props) {
-  const [dummyPosts, setDummyPosts] = useState([]);
   const [searchInputValue, setSearchInputValue] = useState("");
   const [searchType, setSearchType] = useState("title");
-  const [loading, setLoading] = useState(true);
-
+  const [disablingIds, setDisablingIds] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    fetchPosts().then((response) => {
-      setDummyPosts(findAverageRate(response.data));
-      setLoading(false);
-    });
-  }, []);
+  useDisableBodyScroll(isModalOpen);
+
+  const changeDisablingIds = (idList) => {
+    setDisablingIds(idList);
+  };
 
   const handleInputChange = () => {
     const inputValue = inputRef.current.value;
@@ -32,40 +25,30 @@ function Main(props) {
     setSearchType(selectedType);
   };
 
-  const disablePost = (id) => {
-    setDummyPosts((prevDummyPosts) => {
-      const idx = dummyPosts.findIndex((item) => item.id === id);
-      const changedDummyPosts = [...prevDummyPosts];
-      changedDummyPosts[idx] = {
-        ...changedDummyPosts[idx],
-        disabled: !changedDummyPosts[idx].disabled,
-      };
-      return changedDummyPosts;
-    });
+  const handleLoginClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleLoginModalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <>
+      {isModalOpen && <Login handleLoginModalClose={handleLoginModalClose} />}
       <Header
         inputRef={inputRef}
         handleInputChange={handleInputChange}
         handleSearchTypeChange={handleSearchTypeChange}
         searchType={searchType}
+        handleLoginClick={handleLoginClick}
       />
-      {loading ? (
-        <div className={styles.loading}>
-          <CircularProgress color="warning" />
-        </div>
-      ) : (
-        <>
-          <PoolSection
-            dummyPosts={dummyPosts}
-            searchInputValue={searchInputValue}
-            searchType={searchType}
-          />
-          <Boards disablePost={disablePost} />
-        </>
-      )}
+      <PoolSection
+        searchInputValue={searchInputValue}
+        searchType={searchType}
+        disablingIds={disablingIds}
+      />
+      <Boards getSelectedPostIds={changeDisablingIds} />
     </>
   );
 }

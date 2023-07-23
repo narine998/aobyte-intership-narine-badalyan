@@ -9,9 +9,9 @@ import sortDownPng from "../../assets/sort-down.png";
 
 import styles from "./Post.module.scss";
 
-function Post(props) {
+function Post({ post }) {
   const [openComments, setOpenComments] = useState(false);
-  const [comments, setComments] = useState(props.post.comments);
+  const [comments, setComments] = useState(post.comments);
   const [sortUp, setSortUp] = useState(null);
 
   const showAllComments = () => {
@@ -40,13 +40,12 @@ function Post(props) {
       <Comment
         key={comment.id}
         comment={comment}
-        postId={props.post.id}
+        postId={post.id}
         deleteBtnClick={deleteComment}
       />
     ));
   };
 
-  const { post } = props;
   return (
     <div
       className={

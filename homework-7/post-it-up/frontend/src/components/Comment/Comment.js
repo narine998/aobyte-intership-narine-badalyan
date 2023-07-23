@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { ConfirmDialog } from "../";
 
-import { deleteComment } from "../../api/Api";
+import { deleteComment } from "../../api/api";
 import { getElemAtRandomIndex } from "../../helpers/";
 
 import { AVATARS } from "../../constants/";
@@ -12,20 +12,20 @@ import clear from "../../assets/clear.png";
 
 import styles from "./Comment.module.scss";
 
-function Comment(props) {
+function Comment({ postId, comment, deleteBtnClick }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [avatar, setAvatar] = useState(getElemAtRandomIndex(AVATARS));
 
   const handleDeleteComment = async (postId, commentId) => {
     const filteredComments = await deleteComment(postId, commentId);
-    props.deleteBtnClick(filteredComments.data);
+    deleteBtnClick(filteredComments.data);
   };
 
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
 
-  const { text, rating, id } = props.comment;
+  const { text, rating, id } = comment;
 
   return (
     <p className={styles.comment}>
@@ -38,7 +38,7 @@ function Comment(props) {
       <ConfirmDialog
         open={openDialog}
         handleClose={handleDialogClose}
-        handleDelete={() => handleDeleteComment(props.postId, id)}
+        handleDelete={() => handleDeleteComment(postId, id)}
       />
       <img
         onClick={() => setOpenDialog(true)}

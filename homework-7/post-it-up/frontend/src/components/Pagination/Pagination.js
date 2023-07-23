@@ -2,8 +2,7 @@ import React from "react";
 
 import styles from "./Pagination.module.scss";
 
-function Pagination(props) {
-  const { pageCount, handlePageChange, currentPageIndex } = props;
+function Pagination({ pageCount, handlePageChange, currentPageIndex }) {
   const pageArr = " ".repeat(pageCount - 1).split(" ");
 
   return (

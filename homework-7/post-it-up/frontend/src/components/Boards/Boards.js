@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { ActionBar, Layout, PostsContainer } from "../";
 
-import { fetchPosts } from "../../api/Api";
+import { fetchPosts } from "../../api/api";
 import { findAverageRate, sortObjectsByKey } from "../../helpers/";
 import { LEFTBOARD, RIGHTBOARD, RATE } from "../../constants";
 
 import styles from "./Boards.module.scss";
 
-function Boards(props) {
+function Boards({ getSelectedPostIds }) {
   const [boards, setBoards] = useState({
     [LEFTBOARD]: [],
     [RIGHTBOARD]: [],
@@ -46,14 +46,13 @@ function Boards(props) {
         };
       });
 
-      props.disablePost(addedPost.id);
+      getSelectedPostIds([addedPost.id]);
     }
   };
 
   const clearAllPosts = (place) => {
-    boards[place].forEach((post) => {
-      props.disablePost(post.id);
-    });
+    const ids = boards[place].map((post) => post.id);
+    getSelectedPostIds(ids);
     setPool((prevPool) =>
       sortObjectsByKey([...boards[place], ...prevPool], RATE, true)
     );
@@ -73,7 +72,7 @@ function Boards(props) {
   };
 
   const deletePost = (place, id) => {
-    props.disablePost(id);
+    getSelectedPostIds([id]);
     setPool((prevPool) =>
       sortObjectsByKey(
         [...prevPool, boards[place].find((item) => item.id === id)],
