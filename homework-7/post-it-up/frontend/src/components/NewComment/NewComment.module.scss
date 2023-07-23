@@ -1,3 +1,4 @@
+@import "../../general.scss";
 .commentCont {
   display: flex;
   flex-direction: column;
@@ -21,14 +22,14 @@
   width: 70%;
   padding: 1rem;
   border: 0.1rem solid transparent;
-  border-radius: 2rem;
+  border-radius: $main-borderRadius;
   resize: none;
   outline: none;
   background-color: #fff;
   box-shadow: 0 0 1rem #dfded8;
   transition: border-color 0.2s;
   margin-top: 3rem;
-  font-size: 1.7rem;
+  font-size: $main-fontSize;
 }
 
 .ratePart {
@@ -36,5 +37,5 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  font-size: 1.7rem;
+  font-size: $main-fontSize;
 }

@@ -1,3 +1,4 @@
+@import "../../general.scss";
 .boardsSection {
   flex-direction: column;
   gap: 2rem;
@@ -17,8 +18,8 @@
   gap: 2.5rem;
   width: 45%;
   padding: 1.5rem;
-  box-shadow: 0.2rem 0.3rem 1rem 0.2rem #4d250d;
-  background-color: rgb(252 236 236);
+  box-shadow: 0.2rem 0.3rem 1rem 0.2rem $board-boxShadow;
+  background-color: $board-bgColor;
   border-radius: 2rem;
 }
 
@@ -32,6 +33,6 @@
 }
 
 .heading {
-  color: #6c5c57;
+  color: $heading-color;
   text-align: center;
 }

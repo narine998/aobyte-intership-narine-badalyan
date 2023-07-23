@@ -11,11 +11,10 @@
   gap: 0.2rem;
   color: #320808;
   margin-left: auto;
-}
-
-.rate img {
-  width: 2rem;
-  height: 2rem;
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .avatar {
@@ -25,9 +24,8 @@
 .deleteBtn {
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.deleteBtn:hover {
-  box-shadow: 0 0 1.5rem #f7ad23;
-  border-radius: 40%;
+  &:hover {
+    box-shadow: 0 0 1.5rem #f7ad23;
+    border-radius: 40%;
+  }
 }

@@ -1,12 +1,15 @@
 import React from "react";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+
+import DropDown from "../DropDown/DropDown";
+
+import { HOME_PATH, SIGNUP_PATH } from "../../constants";
 
 import favicon from "../../assets/logo.png";
 import searchIcon from "../../assets/search.png";
 
 import styles from "./Header.module.scss";
-import DropDown from "../DropDown/DropDown";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
 
 function Header({
   inputRef,
@@ -17,9 +20,9 @@ function Header({
 }) {
   return (
     <header className={styles.header}>
-      <a className={styles.favicon}>
+      <Link to={HOME_PATH} className={styles.favicon}>
         <img src={favicon} alt="favicon" />
-      </a>
+      </Link>
       <div>
         <input
           ref={inputRef}
@@ -40,7 +43,7 @@ function Header({
         <Button onClick={handleLoginClick} variant="contained" size="large">
           Sign In
         </Button>
-        <Link to="/signup">
+        <Link to={SIGNUP_PATH}>
           <Button variant="contained" size="large">
             Sign Up
           </Button>

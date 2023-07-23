@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+
+import { SIGNUP_PATH } from "../../constants";
 
 import hiddenEye from "../../assets/hidden.png";
 import openEye from "../../assets/eye.png";
 
 import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
 
 const BackDrop = ({ onClick }) => {
   return <div className={styles.backDrop} onClick={onClick}></div>;
@@ -58,7 +60,7 @@ const LoginModal = ({ onClose }) => {
           </div>
           <div className={styles.signup}>
             <span>
-              Don't have an account? <Link to="/signup">Sign Up</Link>
+              Don't have an account? <Link to={SIGNUP_PATH}>Sign Up</Link>
             </span>
           </div>
         </form>

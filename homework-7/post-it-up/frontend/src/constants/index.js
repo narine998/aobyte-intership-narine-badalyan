@@ -11,3 +11,9 @@ export const AVATARS = [user, woman1, girl, woman2, avatar, man];
 export const LEFTBOARD = "leftBoard";
 export const RIGHTBOARD = "rightBoard";
 export const RATE = "rate";
+
+//routes
+
+export const HOME_PATH = "/";
+export const SIGNUP_PATH = "/signup";
+export const SINGLEPOST_PATH = "/post/:postId";

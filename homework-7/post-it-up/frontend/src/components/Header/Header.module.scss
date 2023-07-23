@@ -10,36 +10,33 @@
   top: 0;
   width: 100%;
   background-color: $header-bgColor;
-}
-
-.header div {
-  display: flex;
-  flex-grow: 1;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-.header select {
-  padding: 0.5rem;
-  width: 16rem;
-}
-
-.header input {
-  border: 0.3rem solid #4d250d;
-  border-radius: 2rem;
-  padding: 1rem;
-  width: 30rem;
-  outline: none;
-  font-size: 1.7rem;
+  div {
+    display: flex;
+    flex-grow: 1;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  select {
+    padding: 0.5rem;
+    width: 16rem;
+  }
+  input {
+    border: 0.3rem solid #4d250d;
+    border-radius: $main-borderRadius;
+    padding: 1rem;
+    width: 30rem;
+    outline: none;
+    font-size: $main-fontSize;
+  }
 }
 
 .favicon {
   cursor: pointer;
-}
-
-.favicon img {
-  width: 10rem;
+  img {
+    width: 10rem;
+  }
 }
 
 .search {
@@ -47,15 +44,16 @@
   right: 50%;
 }
 
-.authContainer button {
-  width: 13rem;
-  font-size: 1.4rem;
-  border-radius: 1.5rem;
-  background-color: $primary-bgColor;
-  font-weight: bold;
-}
-
-.authContainer button:hover {
-  background-color: $primary-bgHoverColor;
-  box-shadow: 0 0 1.5rem $primary-boxShadow;
+.authContainer {
+  button {
+    width: 13rem;
+    font-size: 1.4rem;
+    border-radius: 1.5rem;
+    background-color: $primary-bgColor;
+    font-weight: bold;
+  }
+  button:hover {
+    background-color: $primary-bgHoverColor;
+    box-shadow: 0 0 1.5rem $primary-boxShadow;
+  }
 }

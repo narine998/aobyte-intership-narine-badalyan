@@ -14,8 +14,8 @@ function PostCard(props) {
   };
 
   return (
-    <li className={styles.postCard} onClick={() => showCompletePost(id)}>
-      <div className={styles.postCont}>
+    <li className={styles.postCard}>
+      <div className={styles.postCont} onClick={() => showCompletePost(id)}>
         <span className={styles.title}>{title}</span>
         <span>
           The average rate of this post is {rate} {face}

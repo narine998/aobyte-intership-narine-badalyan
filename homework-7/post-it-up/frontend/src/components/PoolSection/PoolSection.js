@@ -99,9 +99,15 @@ function PoolSection({ searchInputValue, searchType, disablingIds }) {
       ) : (
         <section className={styles.poolSection}>
           <div className={styles.postsList}>
-            {searchInputValue.trim()
-              ? renderPosts(filteredPosts)
-              : renderPosts(currentPagePosts)}
+            {searchInputValue.trim() ? (
+              filteredPosts.length ? (
+                renderPosts(filteredPosts)
+              ) : (
+                <Error className={styles.error} src={error404} />
+              )
+            ) : (
+              renderPosts(currentPagePosts)
+            )}
           </div>
           {!searchInputValue.trim() && (
             <Pagination

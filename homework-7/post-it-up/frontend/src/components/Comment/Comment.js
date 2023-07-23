@@ -14,7 +14,7 @@ import styles from "./Comment.module.scss";
 
 function Comment({ postId, comment, deleteBtnClick }) {
   const [openDialog, setOpenDialog] = useState(false);
-  const [avatar, setAvatar] = useState(getElemAtRandomIndex(AVATARS));
+  const avatar = getElemAtRandomIndex(AVATARS);
 
   const handleDeleteComment = async (postId, commentId) => {
     const filteredComments = await deleteComment(postId, commentId);
