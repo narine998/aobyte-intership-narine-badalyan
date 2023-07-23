@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { Comment, NewComment } from "../";
 
@@ -54,7 +55,9 @@ function Post({ post }) {
           : styles.postBoard
       }
     >
-      <p className={styles.title}>{post.title}</p>
+      <Link to={`/post/${post.id}`}>
+        <p className={styles.title}>{post.title}</p>
+      </Link>
       <div className={styles.commentBox}>
         <span className={styles.commentsText} onClick={showAllComments}>
           {openComments ? "Hide comments" : "See all comments"}

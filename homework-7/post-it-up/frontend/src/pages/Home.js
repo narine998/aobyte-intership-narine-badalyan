@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 
-import { Boards, Header, PoolSection, Login, SignUp } from "../";
-import useDisableBodyScroll from "../../hooks/UseDisableBodyScroll";
+import { Boards, Header, PoolSection, Login } from "../components/";
+import useDisableBodyScroll from "../hooks/UseDisableBodyScroll";
 
-function Main(props) {
+function Home(props) {
   const [searchInputValue, setSearchInputValue] = useState("");
   const [searchType, setSearchType] = useState("title");
   const [disablingIds, setDisablingIds] = useState([]);
@@ -53,4 +53,4 @@ function Main(props) {
   );
 }
 
-export default Main;
+export default Home;

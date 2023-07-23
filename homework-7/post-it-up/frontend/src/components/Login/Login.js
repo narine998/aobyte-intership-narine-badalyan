@@ -7,6 +7,7 @@ import hiddenEye from "../../assets/hidden.png";
 import openEye from "../../assets/eye.png";
 
 import styles from "./Login.module.scss";
+import { Link } from "react-router-dom";
 
 const BackDrop = ({ onClick }) => {
   return <div className={styles.backDrop} onClick={onClick}></div>;
@@ -57,7 +58,7 @@ const LoginModal = ({ onClose }) => {
           </div>
           <div className={styles.signup}>
             <span>
-              Don't have an account? <strong>Sign Up</strong>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
             </span>
           </div>
         </form>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CircularProgress from "@mui/joy/CircularProgress";
 
-import { Post, Pagination, Error } from "../";
+import { Post, Pagination, Error, Spinner } from "../";
 
 import { fetchPosts } from "../../api/api";
 import { findAverageRate } from "../../helpers/";
@@ -94,9 +93,7 @@ function PoolSection({ searchInputValue, searchType, disablingIds }) {
   return (
     <>
       {loading ? (
-        <div className={styles.loading}>
-          <CircularProgress color="warning" />
-        </div>
+        <Spinner />
       ) : error ? (
         <Error className={styles.error} src={error404} />
       ) : (

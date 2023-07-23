@@ -9,6 +9,9 @@
   padding: 1rem 1.5rem 2rem;
   box-shadow: 1rem 0.5rem 3rem 0rem #ddbfa6;
   justify-self: center;
+  a {
+    text-decoration: none;
+  }
 }
 
 .commentBox {
@@ -51,4 +54,8 @@
   border-radius: 0.8rem;
   box-shadow: 0 0 0.9rem #dfded8;
   padding: 1rem;
+}
+
+.title:hover {
+  text-decoration: underline;
 }

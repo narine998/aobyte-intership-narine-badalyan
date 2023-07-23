@@ -6,6 +6,7 @@ import searchIcon from "../../assets/search.png";
 import styles from "./Header.module.scss";
 import DropDown from "../DropDown/DropDown";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Header({
   inputRef,
@@ -39,9 +40,11 @@ function Header({
         <Button onClick={handleLoginClick} variant="contained" size="large">
           Sign In
         </Button>
-        <Button variant="contained" size="large">
-          Sign Up
-        </Button>
+        <Link to="/signup">
+          <Button variant="contained" size="large">
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </header>
   );

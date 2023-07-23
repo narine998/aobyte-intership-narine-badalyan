@@ -14,11 +14,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  cursor: pointer;
+  button {
+    width: 2.7rem;
+    height: 2.9rem;
+  }
 }
 
-.postCard button {
-  width: 2.7rem;
-  height: 2.9rem;
+.postCard:hover {
+  .postCont {
+    background-color: #efe9f4;
+  }
 }
 
 .title {

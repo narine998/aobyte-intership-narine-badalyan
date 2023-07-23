@@ -24,16 +24,6 @@ function SignUp(props) {
             <div className={styles.newPasswordContainer}>
               <input type="password" placeholder="New password" />
             </div>
-            <div>
-              <div>
-                <input type="radio" id="male" name="gender" value="male" />
-                <label htmlFor="male">Male</label>
-              </div>
-              <div>
-                <input type="radio" id="female" name="gender" value="female" />
-                <label htmlFor="female">Female</label>
-              </div>
-            </div>
             <div className={styles.signUpButtonCont}>
               <Button type="submit">Sign Up</Button>
             </div>

@@ -3,11 +3,18 @@ import React from "react";
 import deleteImg from "../../assets/delete.png";
 
 import styles from "./PostCard.module.scss";
+import { useNavigate } from "react-router-dom";
 
 function PostCard(props) {
-  const { title, rate, face } = props.post;
+  const { title, rate, face, id } = props.post;
+  const navigate = useNavigate();
+
+  const showCompletePost = (id) => {
+    navigate(`/post/${id}`);
+  };
+
   return (
-    <li className={styles.postCard}>
+    <li className={styles.postCard} onClick={() => showCompletePost(id)}>
       <div className={styles.postCont}>
         <span className={styles.title}>{title}</span>
         <span>
