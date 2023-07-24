@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Comment, NewComment } from "../";
@@ -10,10 +10,23 @@ import sortDownPng from "../../assets/sort-down.png";
 
 import styles from "./Post.module.scss";
 
-function Post({ post }) {
+function Post({ post, searchInputValue, singlePost }) {
   const [openComments, setOpenComments] = useState(false);
   const [comments, setComments] = useState(post.comments);
+  const [filteredComments, setFilteredComments] = useState([]);
   const [sortUp, setSortUp] = useState(null);
+
+  useEffect(() => {
+    if (searchInputValue) {
+      setFilteredComments(
+        comments.filter((comment) =>
+          comment.text
+            .toLowerCase()
+            .includes(searchInputValue.trim().toLowerCase())
+        )
+      );
+    }
+  }, [searchInputValue, comments]);
 
   const showAllComments = () => {
     setOpenComments((prevOpenComments) => !prevOpenComments);
@@ -36,7 +49,7 @@ function Post({ post }) {
     setComments(sortObjectsByKey(filteredComments, "rating", sortUp));
   };
 
-  const renderComments = () => {
+  const renderComments = (comments) => {
     return comments.map((comment) => (
       <Comment
         key={comment.id}
@@ -51,8 +64,8 @@ function Post({ post }) {
     <div
       className={
         post.disabled
-          ? `${styles.disabled} ${styles.postBoard}`
-          : styles.postBoard
+          ? `${styles.disabled} ${styles.postBoard} ${styles[singlePost]}`
+          : `${styles.postBoard}  ${styles[singlePost]}`
       }
     >
       <Link to={`/post/${post.id}`}>
@@ -78,7 +91,9 @@ function Post({ post }) {
 
       {openComments && (
         <>
-          {renderComments()}
+          {searchInputValue
+            ? renderComments(filteredComments)
+            : renderComments(comments)}
           <NewComment updateComments={updateComments} id={post.id} />
         </>
       )}

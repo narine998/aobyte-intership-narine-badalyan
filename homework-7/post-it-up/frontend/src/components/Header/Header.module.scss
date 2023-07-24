@@ -41,7 +41,7 @@
 
 .search {
   position: absolute;
-  right: 50%;
+  right: 43%;
 }
 
 .authContainer {
@@ -55,5 +55,9 @@
   button:hover {
     background-color: $primary-bgHoverColor;
     box-shadow: 0 0 1.5rem $primary-boxShadow;
+  }
+  .signupBtn {
+    color: $primary-bgColor;
+    background-color: white;
   }
 }

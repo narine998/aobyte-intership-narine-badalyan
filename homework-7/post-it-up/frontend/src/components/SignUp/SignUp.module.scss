@@ -3,7 +3,7 @@
 .signUpContainer {
   width: 50%;
   padding: 4rem;
-  margin: 5rem auto;
+  margin: 0 auto 5rem auto;
   box-shadow: 0 0 1.3rem #514949;
   border-radius: $main-borderRadius;
   background-color: $modal-bgColor;
@@ -49,6 +49,10 @@
       border: 0.2rem solid $primary-bgColor;
     }
   }
+  a {
+    color: $primary-bgColor;
+    font-weight: bold;
+  }
 }
 
 .signUpContainer {
@@ -59,6 +63,15 @@
   h1,
   p {
     margin: 1.2rem 0;
+  }
+}
+
+.logo {
+  margin: 0;
+  padding: 0 2rem;
+  img {
+    cursor: pointer;
+    width: 14rem;
   }
 }
 

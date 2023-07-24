@@ -17,6 +17,7 @@ function Header({
   handleSearchTypeChange,
   handleLoginClick,
   searchType,
+  onePost,
 }) {
   return (
     <header className={styles.header}>
@@ -32,19 +33,21 @@ function Header({
           onChange={handleInputChange}
         />
         <img className={styles.search} src={searchIcon} alt="search" />
-        <DropDown
-          onChange={handleSearchTypeChange}
-          option1="title"
-          option2="comment"
-          role="Search by"
-        />
+        {!onePost && (
+          <DropDown
+            onChange={handleSearchTypeChange}
+            option1="title"
+            option2="comment"
+            role="Search by"
+          />
+        )}
       </div>
       <div className={styles.authContainer}>
         <Button onClick={handleLoginClick} variant="contained" size="large">
           Sign In
         </Button>
         <Link to={SIGNUP_PATH}>
-          <Button variant="contained" size="large">
+          <Button variant="contained" size="large" className={styles.signupBtn}>
             Sign Up
           </Button>
         </Link>

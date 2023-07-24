@@ -1,13 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { fetchSinglePost } from "../api/api";
-import { Header, Post, Spinner } from "../components";
+import { Header, Login, Post, Spinner } from "../components";
 
 function PostPage(props) {
   const { postId } = useParams();
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState("");
+  const inputRef = useRef(null);
+
+  const handleInputChange = () => {
+    const inputValue = inputRef.current.value;
+    setSearchInputValue(inputValue);
+  };
+
+  const handleLoginClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleLoginModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     fetchSinglePost(postId)
@@ -24,9 +40,16 @@ function PostPage(props) {
   return (
     <>
       {loading && <Spinner />}
+      {isModalOpen && <Login handleLoginModalClose={handleLoginModalClose} />}
       {!loading && (
         <>
-          <Header />
+          <Header
+            inputRef={inputRef}
+            handleInputChange={handleInputChange}
+            handleLoginClick={handleLoginClick}
+            searchType="comments"
+            onePost={true}
+          />
           <div
             style={{
               display: "flex",
@@ -34,7 +57,11 @@ function PostPage(props) {
               margin: "14rem auto",
             }}
           >
-            <Post post={post} />
+            <Post
+              post={post}
+              searchInputValue={searchInputValue}
+              singlePost="singlePost"
+            />
           </div>
         </>
       )}
