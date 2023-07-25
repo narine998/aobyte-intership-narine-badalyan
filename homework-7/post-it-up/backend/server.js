@@ -30,6 +30,20 @@ app.get("/api/posts", (req, res) => {
     });
 });
 
+// Route to get a single post
+app.get("/api/posts/:postId", (req, res) => {
+  const { postId } = req.params;
+  db.ref("posts")
+    .child(postId)
+    .once("value")
+    .then((snapshot) => {
+      res.json(snapshot.val());
+    })
+    .catch((error) => {
+      res.status(500).json({ error: `Error fetching post with ${postId} id` });
+    });
+});
+
 // Route to add a new post
 app.post("/api/posts", (req, res) => {
   const { id, title } = req.body;
