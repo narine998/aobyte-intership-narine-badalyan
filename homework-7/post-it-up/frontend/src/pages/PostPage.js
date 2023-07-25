@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { fetchSinglePost } from "../api/api";
-import { Header, Login, Post, Spinner } from "../components";
+import { Header, Login, SinglePost, Spinner } from "../components";
 
 function PostPage(props) {
   const { postId } = useParams();
@@ -57,11 +57,7 @@ function PostPage(props) {
               margin: "14rem auto",
             }}
           >
-            <Post
-              post={post}
-              searchInputValue={searchInputValue}
-              singlePost="singlePost"
-            />
+            <SinglePost post={post} searchInputValue={searchInputValue} />
           </div>
         </>
       )}

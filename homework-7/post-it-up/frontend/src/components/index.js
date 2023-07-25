@@ -15,4 +15,5 @@ export { default as PostsContainer } from "./PostsContainer/PostsContainer";
 export { default as Post } from "./Post/Post";
 export { default as RootLayout } from "./RootLayout/RootLayout";
 export { default as SignUp } from "./SignUp/SignUp";
+export { default as SinglePost } from "./SinglePost/SinglePost";
 export { default as Spinner } from "./Spinner/Spinner";
