@@ -26,3 +26,32 @@
     text-decoration: underline;
   }
 }
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    font-size: 1.7rem;
+    color: #333;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.commentLikeCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  button {
+    font-size: $main-fontSize;
+    font-weight: bold;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: $red-color;
+  }
+}

@@ -44,3 +44,27 @@ export const deleteComment = async (postId, commentId) => {
     console.log(err.message);
   }
 };
+
+export const replyComment = async (postId, commentId, replyData) => {
+  try {
+    const response = await api.post(
+      `/posts/${postId}/comments/${commentId}`,
+      replyData
+    );
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const likeComment = async (postId, commentId, likeCount) => {
+  try {
+    const response = await api.patch(
+      `posts/${postId}/comments/${commentId}`,
+      likeCount
+    );
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};

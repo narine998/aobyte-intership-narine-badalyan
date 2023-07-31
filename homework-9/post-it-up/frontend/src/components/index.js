@@ -14,6 +14,7 @@ export { default as PoolSection } from "./PoolSection/PoolSection";
 export { default as PostCard } from "./PostCard/PostCard";
 export { default as PostsContainer } from "./PostsContainer/PostsContainer";
 export { default as Post } from "./Post/Post";
+export { default as ReplyModal } from "./ReplyModal/ReplyModal";
 export { default as SignUp } from "./SignUp/SignUp";
 export { default as SinglePost } from "./SinglePost/SinglePost";
 export { default as Spinner } from "./Spinner/Spinner";

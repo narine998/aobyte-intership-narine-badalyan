@@ -7,18 +7,17 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 
 import ButtonWrapper from "../../UI/ButtonWrapper";
+import BackDrop from "../../UI/BackDrop";
 
+import { editLoginDialogState } from "../../features/loginDialog/loginDialogSlice";
 import { SIGNUP_PATH } from "../../constants";
+
+import useDisableBodyScroll from "../../hooks/UseDisableBodyScroll";
 
 import hiddenEye from "../../assets/hidden.png";
 import openEye from "../../assets/eye.png";
 
 import styles from "./Login.module.scss";
-import { editLoginDialogState } from "../../features/loginDialog/loginDialogSlice";
-
-const BackDrop = ({ onClick }) => {
-  return <div className={styles.backDrop} onClick={onClick}></div>;
-};
 
 const LoginModal = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -79,6 +78,7 @@ const LoginModal = ({ onClose }) => {
 };
 
 function Login(props) {
+  useDisableBodyScroll(true);
   const dispatch = useDispatch();
 
   const handleLoginModalClose = () => {
