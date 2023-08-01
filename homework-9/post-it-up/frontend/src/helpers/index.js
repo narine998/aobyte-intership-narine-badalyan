@@ -10,6 +10,7 @@ export function findAverageRate(arr) {
     return {
       id: item.id,
       title: item.title,
+      description: item.description,
       comments: item.comments,
       rate: rate ? Math.round(rate * 100) / 100 : false,
       face: rate ? (rate > 4 ? "\u{1F600}" : "\u{1F614}") : "",

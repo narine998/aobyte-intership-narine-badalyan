@@ -24,11 +24,6 @@ function Header({ onePost }) {
   const searchType = useSelector(selectSearchType);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setSearchType("title"));
-    dispatch(setSearchValue(""));
-  }, []);
-
   const handleLoginClick = () => {
     dispatch(editLoginDialogState(true));
   };
@@ -37,9 +32,9 @@ function Header({ onePost }) {
     dispatch(setSearchValue(e.target.value));
   };
 
-  if (onePost) {
-    dispatch(setSearchType("comments"));
-  }
+  const handleSearchTypeChange = (value) => {
+    dispatch(setSearchType(value));
+  };
 
   return (
     <header className={styles.header}>
@@ -57,7 +52,12 @@ function Header({ onePost }) {
           <img className={styles.search} src={searchIcon} alt="search" />
         </div>
         {!onePost && (
-          <DropDown option1="title" option2="comment" role="Search by" />
+          <DropDown
+            onChange={handleSearchTypeChange}
+            option1="title"
+            option2="comment"
+            role="Search by"
+          />
         )}
       </div>
       <div className={styles.authContainer}>

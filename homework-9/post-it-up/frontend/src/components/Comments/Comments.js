@@ -5,7 +5,10 @@ import { Comment, NewComment } from "../";
 import ButtonWrapper from "../../UI/ButtonWrapper";
 
 import { sortObjectsByKey } from "../../helpers/";
-import { selectSearchValue } from "../../features/search/searchSlice";
+import {
+  selectSearchType,
+  selectSearchValue,
+} from "../../features/search/searchSlice";
 
 import sortUpPng from "../../assets/sort-up.png";
 import sortDownPng from "../../assets/sort-down.png";
@@ -19,9 +22,11 @@ function Comments({
   updatePostComments,
 }) {
   const [comments, setComments] = useState(commentData);
+  console.log(comments);
   const [sortUp, setSortUp] = useState(null);
 
   const searchInputValue = useSelector(selectSearchValue);
+  const searchType = useSelector(selectSearchType);
 
   const sortComments = (direction) => {
     if (direction !== sortUp) {
@@ -69,7 +74,7 @@ function Comments({
           <img src={sortDownPng} alt="sort-down" />
         </ButtonWrapper>
       </div>
-      {searchInputValue
+      {searchInputValue && searchType == "comments"
         ? renderComments(filteredComments)
         : renderComments(comments)}
       <NewComment updateComments={updateComments} id={postId} />

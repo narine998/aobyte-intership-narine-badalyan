@@ -16,7 +16,7 @@
 }
 
 .title {
-  font-size: 2.3rem;
+  font-size: 2.5rem;
   color: $red-color;
   font-weight: bold;
   border-radius: 0.8rem;
@@ -53,5 +53,19 @@
     align-items: center;
     gap: 1rem;
     color: $red-color;
+  }
+}
+
+.description {
+  font-style: italic;
+  font-size: 1.6rem;
+  color: $red-color;
+  span {
+    cursor: pointer;
+    color: $primary-bgColor;
+    margin-left: 1rem;
+    &:hover {
+      box-shadow: $primary-bgHoverColor;
+    }
   }
 }

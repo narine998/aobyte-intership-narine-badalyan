@@ -21,7 +21,7 @@ function Boards() {
 
   useEffect(() => {
     fetchPosts().then((response) => {
-      const ratedPosts = findAverageRate(response.data).filter(
+      const ratedPosts = findAverageRate(response.data ?? []).filter(
         (post) => post.rate
       );
       setPool(sortObjectsByKey(ratedPosts, RATE));

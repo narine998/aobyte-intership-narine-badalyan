@@ -2,6 +2,8 @@ import { fetchPool } from "./poolApi";
 import { DISABLE_POOL, SET_POOL } from "../../constants/redux";
 import { findAverageRate } from "../../helpers";
 
+const ERROR_MESSAGE = "There aren't any posts yet. Create a new one";
+
 export const poolReducer = (state = {}, action) => {
   if (action.type === SET_POOL) {
     return action.payload;
@@ -27,18 +29,18 @@ export const poolReducer = (state = {}, action) => {
 export const initialPool = {
   pool: [],
   loading: true,
+  error: null,
 };
 
-export const selectPool = (state) => state.poolData.pool;
+export const selectPoolData = (state) => state.poolData;
 
-export const getPoolLoadingStatus = (state) => state.poolData.loading;
-
-export const setPool = (posts) => {
+export const setPool = (posts, errorMessage) => {
   return {
     type: SET_POOL,
     payload: {
       pool: posts,
       loading: false,
+      error: errorMessage,
     },
   };
 };
@@ -54,9 +56,15 @@ export const disablePool = (ids) => {
 
 export const loadPool = () => {
   return (dispatch, getState) => {
-    fetchPool().then((response) => {
-      const posts = findAverageRate(response.data);
-      dispatch(setPool(posts));
-    });
+    fetchPool()
+      .then((response) => {
+        if (response.data) {
+          const posts = findAverageRate(response.data);
+          dispatch(setPool(posts, null));
+        } else {
+          dispatch(setPool([], ERROR_MESSAGE));
+        }
+      })
+      .catch((err) => dispatch(setPool([], err.message)));
   };
 };

@@ -103,27 +103,24 @@ app.post("/api/posts", upload.single("image"), async (req, res) => {
   }
 });
 
-//add new user
-
-// async function addUser(data) {}
-
-// add new comment
+// route to add new comment
 app.post("/api/posts/:postId/comments", (req, res) => {
   const { postId } = req.params;
   const { text, rating } = req.body;
 
-  const newComment = {
-    id: `${Date.now()}`,
-    text,
-    rating,
-  };
-  // Retrieve the posts data
   db.ref("posts")
     .child(postId)
     .once("value")
     .then((snapshot) => {
       const post = snapshot.val();
       const oldComments = post.comments || [];
+      const newComment = {
+        id: oldComments.length,
+        text,
+        rating,
+        replies: "",
+        likes: 0,
+      };
       const updatedComments = [...oldComments, newComment];
       if (post) {
         db.ref("posts")
@@ -141,16 +138,45 @@ app.post("/api/posts/:postId/comments", (req, res) => {
     });
 });
 
+// route to reply to the comment
+app.post("/api/posts/:postId/comments/:commentId", (req, res) => {
+  const { postId, commentId } = req.params;
+  const { text } = req.body;
+
+  db.ref(`posts/${postId}/comments/`)
+    .child(commentId)
+    .once("value")
+    .then((snapshot) => {
+      const comment = snapshot.val();
+      const commentReplies = comment.replies || [];
+
+      const replyData = {
+        id: commentReplies.length,
+        text,
+      };
+
+      const updatedReplies = [...commentReplies, replyData];
+
+      db.ref(`posts/${postId}/comments/`)
+        .child(commentId)
+        .update({ replies: updatedReplies })
+        .then(() => res.json(updatedReplies))
+        .catch((err) =>
+          res.status(500).json({ error: "Error repling comment" })
+        );
+    });
+});
+
+//route to delete the comment
 app.delete("/api/posts/:postId/comments/:commentId", (req, res) => {
   const { postId, commentId } = req.params;
-
   db.ref("posts")
     .child(postId)
     .once("value")
     .then((snapshot) => {
       const post = snapshot.val();
       const filteredComments = post.comments.filter((comment) => {
-        return comment.id !== commentId;
+        return comment.id != commentId;
       });
       if (post) {
         db.ref("posts")
@@ -166,6 +192,18 @@ app.delete("/api/posts/:postId/comments/:commentId", (req, res) => {
         res.status(404).json({ error: "Post not found" });
       }
     });
+});
+
+//route to like the comment
+app.patch("api/posts/:postId/comments/:commentId", (req, res) => {
+  const { postId, commentId } = req.params;
+  const { likes } = req.body;
+  console.log(likes);
+
+  db.ref(`posts/${postId}/comments/${commentId}/`)
+    .update({ likes })
+    .then(() => res.json({ likes }))
+    .catch(res.status(500).json({ error: "Error liking comment" }));
 });
 
 app.listen(PORT, () => {

@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { fetchSinglePost } from "../api/api";
+
 import { Header, Login, SinglePost, Spinner } from "../components";
-import { useSelector } from "react-redux";
+
 import { selectLoginOpen } from "../features/loginDialog/loginDialogSlice";
+import { setSearchType, setSearchValue } from "../features/search/searchSlice";
 
 function PostPage(props) {
   const { postId } = useParams();
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState(null);
   const isModalOpen = useSelector(selectLoginOpen);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setSearchType("comments"));
+    dispatch(setSearchValue(""));
+  }, []);
 
   useEffect(() => {
     fetchSinglePost(postId)

@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { Post, Pagination, Error, Spinner } from "../";
+import { Post, Pagination, Error } from "../";
 
 import { POSTSPERPAGE } from "../../constants/";
 
-import {
-  getPoolLoadingStatus,
-  loadPool,
-  selectPool,
-} from "../../features/pool/poolSlice";
+import { selectPoolData } from "../../features/pool/poolSlice";
 import {
   selectSearchType,
   selectSearchValue,
@@ -23,17 +19,9 @@ function PoolSection(props) {
   const [currentPageIndex, setCurrentPageIndex] = useState(1);
   const [filteredPosts, setFilteredPosts] = useState([]);
 
-  const loading = useSelector(getPoolLoadingStatus);
-  const pool = useSelector(selectPool);
+  const { pool } = useSelector(selectPoolData);
   const searchInputValue = useSelector(selectSearchValue);
   const searchType = useSelector(selectSearchType);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (loading) {
-      dispatch(loadPool());
-    }
-  }, [loading, dispatch]);
 
   useEffect(() => {
     switch (searchType) {
@@ -49,8 +37,6 @@ function PoolSection(props) {
           )
         );
         break;
-      default:
-        setFilteredPosts(filterByComments(pool, searchInputValue));
     }
   }, [searchInputValue, searchType, pool]);
 
@@ -85,10 +71,6 @@ function PoolSection(props) {
 
   const currentPagePosts = getCurrentPagePosts(pool);
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   if (searchInputValue) {
     return (
       <section className={styles.poolSection}>
@@ -96,7 +78,9 @@ function PoolSection(props) {
           {filteredPosts.length ? (
             renderPosts(filteredPosts)
           ) : (
-            <Error className={styles.error} src={error404} />
+            <Error>
+              <img src={error404} alt="error" />
+            </Error>
           )}
         </div>
       </section>

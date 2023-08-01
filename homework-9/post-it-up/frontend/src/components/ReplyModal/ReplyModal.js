@@ -7,18 +7,20 @@ import ButtonWrapper from "../../UI/ButtonWrapper";
 
 import useDisableBodyScroll from "../../hooks/UseDisableBodyScroll";
 
+import { replyComment } from "../../api/api";
+
 import close from "../../assets/close.png";
 import send from "../../assets/send.png";
 
 import styles from "./ReplyModal.module.scss";
-import { replyComment } from "../../api/api";
 
 const ReplyComment = ({
   onClose,
-  renderReplies,
   updateReplies,
   postId,
   commentId,
+  replies,
+  text,
 }) => {
   const [replyData, setReplyData] = useState("");
   const [sending, setSending] = useState(false);
@@ -39,11 +41,11 @@ const ReplyComment = ({
     }
   };
 
-  // const renderReplies = () => {
-  //   if (allReplies) {
-  //     return allReplies.map((reply) => <li key={reply.id}>{reply.text}</li>);
-  //   }
-  // };
+  const renderReplies = () => {
+    if (replies) {
+      return replies.map((reply) => <li key={reply.id}>{reply.text}</li>);
+    }
+  };
 
   return (
     <div className={styles.modal}>
@@ -51,6 +53,7 @@ const ReplyComment = ({
         <img src={close} alt="close" />
       </Button>
       <div className={styles.repliesCont}>
+        <h1>{text}</h1>
         <ul className={styles.replies}>{renderReplies()}</ul>
         <div className={styles.textBox}>
           <textarea

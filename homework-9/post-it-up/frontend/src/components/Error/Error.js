@@ -1,11 +1,9 @@
 import React from "react";
 
-function Error({ className, src }) {
-  return (
-    <div className={className}>
-      <img src={src} alt="error" />
-    </div>
-  );
+import styles from "./Error.module.scss";
+
+function Error(props) {
+  return <div className={styles.error}>{props.children}</div>;
 }
 
 export default Error;

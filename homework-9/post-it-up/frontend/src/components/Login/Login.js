@@ -54,12 +54,7 @@ const LoginModal = ({ onClose }) => {
             </ButtonWrapper>
           </div>
           <div className={styles.buttonContainer}>
-            <Button
-              onClick={() => {
-                onClose();
-              }}
-              type="submit"
-            >
+            <Button onClick={onClose} type="submit">
               Log In
             </Button>
           </div>

@@ -21,7 +21,7 @@ function Comment({ postId, comment, deleteBtnClick }) {
   const [avatar, setAvatar] = useState(getElemAtRandomIndex(AVATARS));
   const [openDialog, setOpenDialog] = useState(false);
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const [allReplies, setAllReplies] = useState([]);
+  const [allReplies, setAllReplies] = useState(comment.replies);
   const [likes, setLikes] = useState(0);
 
   const { text, rating, id } = comment;
@@ -44,17 +44,10 @@ function Comment({ postId, comment, deleteBtnClick }) {
 
   const handleReplyClick = () => {
     setOpenReplyModal((prevReply) => !prevReply);
-    setAllReplies(comment.replies);
   };
 
   const updateReplies = (replies) => {
     setAllReplies(replies);
-  };
-
-  const renderReplies = () => {
-    if (allReplies) {
-      return allReplies.map((reply) => <li key={reply.id}>{reply.text}</li>);
-    }
   };
 
   return (
@@ -82,6 +75,7 @@ function Comment({ postId, comment, deleteBtnClick }) {
             {likes ? likes : ""}
           </span>
           <Button onClick={handleReplyClick}>
+            <span>{allReplies.length || ""}</span>
             {openReplyModal ? (
               <img src={hide} alt="hide-comments" />
             ) : (
@@ -92,10 +86,11 @@ function Comment({ postId, comment, deleteBtnClick }) {
         {openReplyModal && (
           <ReplyModal
             onClose={handleReplyClick}
-            renderReplies={renderReplies}
+            replies={allReplies}
             updateReplies={updateReplies}
             postId={postId}
             commentId={id}
+            text={text}
           />
         )}
       </div>
