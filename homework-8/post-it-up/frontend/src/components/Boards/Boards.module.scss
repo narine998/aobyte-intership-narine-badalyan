@@ -1,0 +1,12 @@
+@import "../../general.scss";
+.boardsSection {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.heading {
+  color: $heading-color;
+  text-align: center;
+}

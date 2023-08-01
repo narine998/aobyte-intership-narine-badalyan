@@ -1,0 +1,34 @@
+.postCont {
+  border: 0.1rem solid rgb(202, 199, 199);
+  padding: 1.2rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.4rem;
+  background-color: rgb(236, 227, 244);
+  width: 90%;
+  &:hover {
+    background-color: #efe9f4;
+  }
+}
+
+.postCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  button {
+    width: 2.7rem;
+    height: 2.9rem;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.deleteBtn {
+  cursor: pointer;
+}
