@@ -1,0 +1,41 @@
+@import "../../general.scss";
+.commentCont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.commentCont img {
+  position: absolute;
+  top: 65%;
+  right: 6%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.commentCont img:hover {
+  box-shadow: inset -1rem 1.1rem 10rem 0.3rem #e67e22;
+}
+
+.textarea {
+  width: 90%;
+  padding: 1rem;
+  border: 0.1rem solid transparent;
+  border-radius: $main-borderRadius;
+  resize: none;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 1rem #dfded8;
+  transition: border-color 0.2s;
+  margin-top: 3rem;
+  font-size: $main-fontSize;
+}
+
+.ratePart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: $main-fontSize;
+}
