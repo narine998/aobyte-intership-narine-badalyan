@@ -1,0 +1,14 @@
+export const SHOW_HIDE_LOGIN = "show-hide-login";
+export const SET_POOL = "set-pool";
+export const DISABLE_POOL = "disable-pool";
+export const SET_SEARCH_VALUE = "set-search-value";
+export const SET_SEARCH_TYPE = "set-search-type";
+export const SET_BOARD_POSTS = "set-board-posts";
+export const ADD_BOARD_POST = "add-board-post";
+export const CLEAR_BOARD = "clear-board";
+export const SORT_BOARD = "sort-board";
+export const DELETE_BOARD_POST = "delete-board-post";
+export const UPDATE_POST_COMMENTS = "add-post-comments";
+export const DELETE_POST_COMMENT = "delete-post-comment";
+export const UPDATE_COMMENT_REPLIES = "update-comment-replies";
+export const SORT_POST_COMMENTS = "sort-post-comments";
